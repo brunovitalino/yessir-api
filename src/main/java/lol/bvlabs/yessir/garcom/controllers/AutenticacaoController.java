@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lol.bvlabs.yessir.garcom.domain.usuario.DadosAutenticacao;
 import lol.bvlabs.yessir.garcom.domain.usuario.Usuario;
+import lol.bvlabs.yessir.garcom.infra.security.DadosJWTToken;
 import lol.bvlabs.yessir.garcom.infra.security.TokenService;
 
 @RestController
@@ -25,9 +26,10 @@ public class AutenticacaoController {
 	
 	@PostMapping
 	public ResponseEntity efetuarLogin(@RequestBody DadosAutenticacao dados) {
-		var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-		var authentication = authenticationManager.authenticate(token);
-		return ResponseEntity.ok(tokenService.gerarToken((Usuario) authentication.getPrincipal()));
+		var tokenAuthentication = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+		var authentication = authenticationManager.authenticate(tokenAuthentication);
+		var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+		return ResponseEntity.ok(new DadosJWTToken(tokenJWT));
 	}
 
 }

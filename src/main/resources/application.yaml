@@ -10,3 +10,11 @@ spring:
     #database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     #hibernate:
     #  ddl-aut: update
+    properties:
+      hibernate:
+        format_sql: true
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:12345678}
