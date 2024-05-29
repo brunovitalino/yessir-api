@@ -9,9 +9,6 @@ public class YesSirApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(YesSirApplication.class, args);
-
-		var bcrypt = new BCryptPasswordEncoder();
-		System.err.println("PASS ENCODED " + bcrypt.encode("1234"));
 	}
 
 }
