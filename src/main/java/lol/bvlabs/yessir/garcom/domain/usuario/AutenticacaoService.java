@@ -17,14 +17,4 @@ public class AutenticacaoService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return usuarioRepository.findByLogin(username);
 	}
-	
-	public static void gerarPass() {
-		var bcrypt = new BCryptPasswordEncoder();
-		System.err.println("PASS ENCODED " + bcrypt.encode("1234"));
-	}
-	
-	public static void main(String[] args) {
-		gerarPass();
-	}
-
 }
