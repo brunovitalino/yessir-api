@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.infra.security;
+package lol.bvlabs.yessir.infra.security;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lol.bvlabs.yessir.garcom.domain.usuario.UsuarioRepository;
+import lol.bvlabs.yessir.domain.usuario.UsuarioRepository;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {

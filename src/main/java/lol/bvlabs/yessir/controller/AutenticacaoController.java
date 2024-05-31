@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.controllers;
+package lol.bvlabs.yessir.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lol.bvlabs.yessir.garcom.domain.usuario.DadosAutenticacao;
-import lol.bvlabs.yessir.garcom.domain.usuario.Usuario;
-import lol.bvlabs.yessir.garcom.infra.security.DadosJWTToken;
-import lol.bvlabs.yessir.garcom.infra.security.TokenService;
+import lol.bvlabs.yessir.domain.usuario.DadosAutenticacao;
+import lol.bvlabs.yessir.domain.usuario.Usuario;
+import lol.bvlabs.yessir.infra.security.DadosJWTToken;
+import lol.bvlabs.yessir.infra.security.TokenService;
 
 @RestController
 @RequestMapping("/login")

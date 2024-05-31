@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.infra.security;
+package lol.bvlabs.yessir.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

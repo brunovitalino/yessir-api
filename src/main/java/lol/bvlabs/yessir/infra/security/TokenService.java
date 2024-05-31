@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.infra.security;
+package lol.bvlabs.yessir.infra.security;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
-import lol.bvlabs.yessir.garcom.domain.usuario.Usuario;
+import lol.bvlabs.yessir.domain.usuario.Usuario;
 
 @Service
 public class TokenService {

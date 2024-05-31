@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.domain.usuario;
+package lol.bvlabs.yessir.domain.usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

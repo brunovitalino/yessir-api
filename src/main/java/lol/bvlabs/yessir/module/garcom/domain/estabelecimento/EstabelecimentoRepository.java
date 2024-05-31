@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.domain.estabelecimento;
+package lol.bvlabs.yessir.module.garcom.domain.estabelecimento;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

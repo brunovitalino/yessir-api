@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.domain.usuario;
+package lol.bvlabs.yessir.domain.usuario;
 
 import java.util.Collection;
 import java.util.List;

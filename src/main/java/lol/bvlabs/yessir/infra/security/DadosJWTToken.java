@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.infra.security;
+package lol.bvlabs.yessir.infra.security;
 
 public record DadosJWTToken(
 	String tokenJWT

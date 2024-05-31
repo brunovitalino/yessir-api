@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.domain.estabelecimento;
+package lol.bvlabs.yessir.module.garcom.domain.estabelecimento;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

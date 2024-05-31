@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.domain.usuario;
+package lol.bvlabs.yessir.domain.usuario;
 
 public record DadosAutenticacao(
 	String login,

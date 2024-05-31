@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.garcom.controllers;
+package lol.bvlabs.yessir.module.garcom.controller;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lol.bvlabs.yessir.garcom.domain.estabelecimento.Estabelecimento;
+import lol.bvlabs.yessir.module.garcom.domain.estabelecimento.Estabelecimento;
 
 @RestController
 @RequestMapping("/estabelecimentos")
