@@ -22,4 +22,7 @@ public class Estabelecimento {
 	private Long id;
 	private String nome;
 
+	public Estabelecimento(DadosCadastroEstabelecimento dadosEstabelecimento) {
+		this.nome = dadosEstabelecimento.nome();
+	}
 }
