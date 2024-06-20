@@ -1,10 +1,14 @@
 package lol.bvlabs.yessir.module.garcom.domain.estabelecimento;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lol.bvlabs.yessir.module.garcom.domain.menu.Cardapio;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,8 +26,15 @@ public class Estabelecimento {
 	private Long id;
 	private String nome;
 	private Boolean ativo;
+	@OneToMany(mappedBy = "estabelecimento")
+	private Set<Cardapio> cardapios;
+	
+	public Estabelecimento(Long id) {
+		this.id = id;
+	}
 
 	public Estabelecimento(DadosCadastroEstabelecimento dadosEstabelecimento) {
+		this.ativo = true;
 		this.nome = dadosEstabelecimento.nome();
 	}
 

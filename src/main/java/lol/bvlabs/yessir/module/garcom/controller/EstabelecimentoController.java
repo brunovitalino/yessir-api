@@ -54,7 +54,7 @@ public class EstabelecimentoController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void delete(@PathVariable Long id) {
-		var estabelecimento = estabelecimentoRepository.findById(id).get();
+		var estabelecimento = estabelecimentoRepository.getReferenceById(id);
 		estabelecimento.excluir();
 	}
 }
