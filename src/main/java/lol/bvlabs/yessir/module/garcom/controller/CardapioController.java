@@ -6,15 +6,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lol.bvlabs.yessir.module.garcom.domain.estabelecimento.DadosAtualizacaoEstabelecimento;
 import lol.bvlabs.yessir.module.garcom.domain.menu.Cardapio;
 import lol.bvlabs.yessir.module.garcom.domain.menu.CardapioRepository;
+import lol.bvlabs.yessir.module.garcom.domain.menu.DadosAtualizacaoCardapio;
 import lol.bvlabs.yessir.module.garcom.domain.menu.DadosCadastroCardapio;
 import lol.bvlabs.yessir.module.garcom.domain.menu.DadosListagemCardapio;
 
@@ -38,5 +43,19 @@ public class CardapioController {
 	@Transactional
 	public void post(@RequestBody DadosCadastroCardapio dadosCadastroCardapio) {
 		cardapioRepository.save(new Cardapio(dadosCadastroCardapio));
+	}
+
+	@PutMapping
+	@Transactional
+	public void put(@RequestBody DadosAtualizacaoCardapio dadosAtualizacaoCardapio) {
+		var cardapio = cardapioRepository.getReferenceById(dadosAtualizacaoCardapio.id());
+		cardapio.atualizarInformacoes(dadosAtualizacaoCardapio);
+	}
+
+	@DeleteMapping("/{id}")
+	@Transactional
+	public void delete(@PathVariable Long id) {
+		var cardapio = cardapioRepository.getReferenceById(id);
+		cardapio.excluir();
 	}
 }
