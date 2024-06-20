@@ -21,6 +21,7 @@ public class Estabelecimento {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private Boolean ativo;
 
 	public Estabelecimento(DadosCadastroEstabelecimento dadosEstabelecimento) {
 		this.nome = dadosEstabelecimento.nome();
@@ -30,6 +31,11 @@ public class Estabelecimento {
 		if (dadosAtualizacaoEstabelecimento.nome() != null) {
 			this.nome = dadosAtualizacaoEstabelecimento.nome();
 		}
+	}
+
+	public void excluir() {
+		this.ativo = false;
+		
 	}
 	
 }

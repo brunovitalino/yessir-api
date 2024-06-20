@@ -1,10 +1,12 @@
 package lol.bvlabs.yessir.module.garcom.domain.estabelecimento;
 
 public record DadosListagemEstabelecimento(
-		String nome
+		Long id,
+		String nome,
+		Boolean ativo
 ) {
 	
 	public DadosListagemEstabelecimento(Estabelecimento estabelecimento) {
-		this(estabelecimento.getNome());
+		this(estabelecimento.getId(), estabelecimento.getNome(), estabelecimento.getAtivo());
 	}
 }

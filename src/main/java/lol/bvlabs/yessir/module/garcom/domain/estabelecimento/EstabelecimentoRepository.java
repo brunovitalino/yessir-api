@@ -10,4 +10,6 @@ public interface EstabelecimentoRepository extends JpaRepository<Estabelecimento
 	
 	Page<Estabelecimento> findByNome(Pageable paginacao, String nome);
 
+	Page<Estabelecimento> findAllByAtivoTrue(Pageable paginacao);
+
 }

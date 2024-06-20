@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +35,7 @@ public class EstabelecimentoController {
 		if (nome != null) {
 			return ResponseEntity.ok(estabelecimentoRepository.findByNome(paginacao, nome).map(DadosListagemEstabelecimento::new));
 		}
-		return ResponseEntity.ok(estabelecimentoRepository.findAll(paginacao).map(DadosListagemEstabelecimento::new));
+		return ResponseEntity.ok(estabelecimentoRepository.findAllByAtivoTrue(paginacao).map(DadosListagemEstabelecimento::new));
 	}
 
 	@PostMapping
@@ -48,5 +49,12 @@ public class EstabelecimentoController {
 	public void put(@RequestBody DadosAtualizacaoEstabelecimento dadosAtualizacaoEstabelecimento) {
 		var estabelecimento = estabelecimentoRepository.getReferenceById(dadosAtualizacaoEstabelecimento.id());
 		estabelecimento.atualizarInformacoes(dadosAtualizacaoEstabelecimento);
+	}
+
+	@DeleteMapping("/{id}")
+	@Transactional
+	public void delete(@PathVariable Long id) {
+		var estabelecimento = estabelecimentoRepository.findById(id).get();
+		estabelecimento.excluir();
 	}
 }
