@@ -25,4 +25,11 @@ public class Estabelecimento {
 	public Estabelecimento(DadosCadastroEstabelecimento dadosEstabelecimento) {
 		this.nome = dadosEstabelecimento.nome();
 	}
+
+	public void atualizarInformacoes(DadosAtualizacaoEstabelecimento dadosAtualizacaoEstabelecimento) {
+		if (dadosAtualizacaoEstabelecimento.nome() != null) {
+			this.nome = dadosAtualizacaoEstabelecimento.nome();
+		}
+	}
+	
 }
