@@ -2,22 +2,15 @@ server:
   port: 8080
 
 spring:
-  application:
-    name: YesSir
   datasource:
-    url: jdbc:postgresql://localhost:5433/yessir
+    url: jdbc:postgresql://${DATABASE_HOST}:5432/yessir
     username: yessir
     password: 1234
   jpa:
-    show_sql: true
+    show_sql: false
     #database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     #hibernate:
     #  ddl-aut: update
     properties:
       hibernate:
-        format_sql: true
-
-api:
-  security:
-    token:
-      secret: ${JWT_SECRET:12345678}
+        format_sql: false

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import lol.bvlabs.yessir.module.garcom.domain.estabelecimento.DadosAtualizacaoEstabelecimento;
 import lol.bvlabs.yessir.module.garcom.domain.menu.Cardapio;
 import lol.bvlabs.yessir.module.garcom.domain.menu.CardapioRepository;
 import lol.bvlabs.yessir.module.garcom.domain.menu.DadosAtualizacaoCardapio;
