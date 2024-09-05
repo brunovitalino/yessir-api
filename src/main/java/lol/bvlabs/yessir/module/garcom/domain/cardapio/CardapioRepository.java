@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.module.garcom.domain.menu;
+package lol.bvlabs.yessir.module.garcom.domain.cardapio;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

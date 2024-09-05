@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lol.bvlabs.yessir.module.garcom.domain.menu.Cardapio;
+import lol.bvlabs.yessir.module.garcom.domain.cardapio.Cardapio;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

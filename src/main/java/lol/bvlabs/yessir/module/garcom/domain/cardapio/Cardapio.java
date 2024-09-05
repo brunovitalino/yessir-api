@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.module.garcom.domain.menu;
+package lol.bvlabs.yessir.module.garcom.domain.cardapio;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
