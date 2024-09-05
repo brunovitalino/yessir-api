@@ -1,7 +1,6 @@
 package lol.bvlabs.yessir.module.garcom.domain.cardapio;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,14 +33,18 @@ public class Cardapio {
 	private Estabelecimento estabelecimento;
 
 	public Cardapio(DadosCadastroCardapio dadosCadastroCardapio) {
+		this.nome = dadosCadastroCardapio.nome();
+		this.preco = dadosCadastroCardapio.preco();
 		this.ativo = true;
 		this.estabelecimento = new Estabelecimento(dadosCadastroCardapio.estabelecimento_id());
-		this.nome = dadosCadastroCardapio.nome();
 	}
 
-	public void atualizarInformacoes(DadosAtualizacaoCardapio sadosAtualizacaoCardapio) {
-		if (sadosAtualizacaoCardapio.nome() != null) {
-			this.nome = sadosAtualizacaoCardapio.nome();
+	public void atualizarInformacoes(DadosAtualizacaoCardapio dadosAtualizacaoCardapio) {
+		if (dadosAtualizacaoCardapio.nome() != null) {
+			this.nome = dadosAtualizacaoCardapio.nome();
+		}
+		if (dadosAtualizacaoCardapio.preco() != null) {
+			this.preco = dadosAtualizacaoCardapio.preco();
 		}
 	}
 

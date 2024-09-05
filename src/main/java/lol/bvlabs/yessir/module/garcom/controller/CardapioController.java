@@ -38,6 +38,12 @@ public class CardapioController {
 		return ResponseEntity.ok(cardapioRepository.findAllByAtivoTrue(paginacao).map(DadosListagemCardapio::new));
 	}
 
+	@GetMapping("/estabelecimentos/{estabelecimentoId}")
+	public ResponseEntity<Page<DadosListagemCardapio>> getAllByEstabelecimentoId(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao,
+			@PathVariable Long estabelecimentoId) {
+		return ResponseEntity.ok(cardapioRepository.findByEstabelecimentoId(paginacao, estabelecimentoId).map(DadosListagemCardapio::new));
+	}
+
 	@PostMapping
 	@Transactional
 	public void post(@RequestBody DadosCadastroCardapio dadosCadastroCardapio) {
