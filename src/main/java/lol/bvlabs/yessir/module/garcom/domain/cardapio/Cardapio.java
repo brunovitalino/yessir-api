@@ -1,5 +1,8 @@
 package lol.bvlabs.yessir.module.garcom.domain.cardapio;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +27,7 @@ public class Cardapio {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private BigDecimal preco;
 	private Boolean ativo;
 	@ManyToOne
 	@JoinColumn(name = "estabelecimento_id", nullable = false)
