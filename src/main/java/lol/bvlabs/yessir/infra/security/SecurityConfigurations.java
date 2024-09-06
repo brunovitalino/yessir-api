@@ -21,6 +21,7 @@ public class SecurityConfigurations {
 	@Autowired
 	private SecurityFilter securityFilter;
 	
+	// Configuracoes de autenticacao
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf(csrf -> csrf.disable())
@@ -34,11 +35,13 @@ public class SecurityConfigurations {
 				.build();
 	}
 
+	// Configuracoes de token
 	@Bean
 	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
-	
+
+	// Configuracoes de token
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
