@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.domain.usuario;
+package lol.bvlabs.yessir.module.garcom.domain.role;
 
 import java.time.LocalDateTime;
 
@@ -29,6 +29,7 @@ public class Role implements GrantedAuthority {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private Boolean ativo;
 	@CreationTimestamp
 	private LocalDateTime created;
 	@UpdateTimestamp
@@ -37,5 +38,25 @@ public class Role implements GrantedAuthority {
 	@Override
 	public String getAuthority() {
 		return nome;
+	}
+	
+	public Role(Long id) {
+		this.id = id;
+	}
+
+	public Role(DadosCadastroRole dadosRole) {
+		this.ativo = true;
+		this.nome = dadosRole.nome().toUpperCase().replace("_ROLE", "") + "_ROLE";
+	}
+
+	public void atualizarInformacoes(DadosAtualizacaoRole dadosAtualizacaoRole) {
+		if (dadosAtualizacaoRole.nome() != null) {
+			this.nome = dadosAtualizacaoRole.nome().replace("_ROLE", "") + "_ROLE";
+		}
+	}
+
+	public void excluir() {
+		this.ativo = false;
+		
 	}
 }
