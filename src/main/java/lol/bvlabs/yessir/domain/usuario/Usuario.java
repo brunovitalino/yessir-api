@@ -9,6 +9,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -42,6 +43,7 @@ public class Usuario implements UserDetails {
 	private String email;
 	@NotEmpty
 	private String senha;
+	private Boolean ativo;
 	@CreationTimestamp
 	private LocalDateTime created;
 	@UpdateTimestamp
@@ -49,6 +51,30 @@ public class Usuario implements UserDetails {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles = new ArrayList<>();
+
+	public Usuario(DadosCadastroUsuario dadosUsuario) {
+		this.ativo = true;
+		this.nome = dadosUsuario.nome();
+		this.email = dadosUsuario.email();
+		if (dadosUsuario.senha() != null ) {			
+			var encoder = new BCryptPasswordEncoder();
+			this.senha = encoder.encode(dadosUsuario.senha());
+		}
+	}
+
+	public void atualizarInformacoes(DadosAtualizacaoUsuario dadosAtualizacaoUsuario) {
+		if (dadosAtualizacaoUsuario.nome() != null) {
+			this.nome = dadosAtualizacaoUsuario.nome();
+		}
+		if (dadosAtualizacaoUsuario.email() != null) {
+			this.email = dadosAtualizacaoUsuario.email();
+		}
+		var encoder = new BCryptPasswordEncoder();
+		if (dadosAtualizacaoUsuario.senha() != null && dadosAtualizacaoUsuario.novaSenha() != null
+				&& encoder.matches(dadosAtualizacaoUsuario.senha(), this.senha)) {
+			this.senha = encoder.encode(dadosAtualizacaoUsuario.novaSenha());
+		}
+	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

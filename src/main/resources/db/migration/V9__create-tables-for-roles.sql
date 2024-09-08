@@ -8,8 +8,8 @@ CREATE TABLE roles(
 );
 
 CREATE TABLE usuarios_roles (
-	usuarios_id BIGINT NOT NULL,
+	usuario_id BIGINT NOT NULL,
 	roles_id BIGINT NOT NULL,
-	FOREIGN KEY (usuarios_id) REFERENCES public.usuarios(id),
-	FOREIGN KEY (roles_id) REFERENCES public."roles"(id)
+	FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+	FOREIGN KEY (roles_id) REFERENCES "roles"(id)
 );
