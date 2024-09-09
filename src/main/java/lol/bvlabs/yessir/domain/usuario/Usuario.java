@@ -34,9 +34,6 @@ import lombok.NoArgsConstructor;
 public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	
-	// @Autowired
-	// RoleRepository roleRepository;
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -80,6 +77,9 @@ public class Usuario implements UserDetails {
 		}
 		if (dadosAtualizacaoUsuario.ativo() != null) {
 			this.ativo = dadosAtualizacaoUsuario.ativo();
+		}
+		if (dadosAtualizacaoUsuario.roles() != null) {
+			this.roles = dadosAtualizacaoUsuario.roles();
 		}
 	}
 
