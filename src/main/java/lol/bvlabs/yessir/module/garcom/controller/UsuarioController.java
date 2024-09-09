@@ -54,6 +54,7 @@ public class UsuarioController {
 	@DeleteMapping("/{id}")
 	@Transactional
 	public void delete(@PathVariable Long id) {
-		usuarioRepository.deleteById(id);
+		var usuario = usuarioRepository.getReferenceById(id);
+		usuario.excluir();
 	}
 }

@@ -53,10 +53,12 @@ public class Role implements GrantedAuthority {
 		if (dadosAtualizacaoRole.nome() != null) {
 			this.nome = dadosAtualizacaoRole.nome().replace("_ROLE", "") + "_ROLE";
 		}
+		if (dadosAtualizacaoRole.ativo() != null) {
+			this.ativo = dadosAtualizacaoRole.ativo();
+		}
 	}
 
 	public void excluir() {
 		this.ativo = false;
-		
 	}
 }

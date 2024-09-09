@@ -5,5 +5,6 @@ public record DadosAtualizacaoUsuario(
 	String nome,
 	String email,
 	String senha,
-	String novaSenha
+	String novaSenha,
+	Boolean ativo
 ) {}
