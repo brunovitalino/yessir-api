@@ -37,6 +37,10 @@ public class Atendente {
 	@UpdateTimestamp
 	private LocalDateTime updated;
 
+	public Atendente(Long id) {
+		this.id = id;
+	}
+
 	public Atendente(DadosCadastroAtendente dadosCadastroAtendente) {
 		this.nome = dadosCadastroAtendente.nome();
 		this.ativo = true;
