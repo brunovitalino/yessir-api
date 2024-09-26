@@ -1,5 +1,10 @@
 package lol.bvlabs.yessir.module.garcom.domain.mesa;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +27,10 @@ public class Mesa {
 	private Long id;
 	private String nome;
 	private Boolean ativo;
+	@CreationTimestamp
+	private LocalDateTime created;
+	@UpdateTimestamp
+	private LocalDateTime updated;
 
 	public Mesa(DadosCadastroMesa dadosCadastroMesa) {
 		this.nome = dadosCadastroMesa.nome();
