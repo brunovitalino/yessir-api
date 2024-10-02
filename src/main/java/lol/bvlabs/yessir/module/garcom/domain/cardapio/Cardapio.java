@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lol.bvlabs.yessir.module.garcom.domain.cardapio.icone.CardapioTipo;
+import lol.bvlabs.yessir.module.garcom.domain.cardapio.tipo.CardapioIcone;
 import lol.bvlabs.yessir.module.garcom.domain.estabelecimento.Estabelecimento;
 import lol.bvlabs.yessir.module.garcom.domain.pedido.Pedido;
 import lombok.AllArgsConstructor;
@@ -35,6 +37,14 @@ public class Cardapio {
 	@ManyToOne
 	@JoinColumn(name = "estabelecimento_id", nullable = false)
 	private Estabelecimento estabelecimento;
+
+	@ManyToOne
+	@JoinColumn(name = "cardapio_tipo_id", nullable = false)
+	private CardapioTipo cardapioTipo;
+
+	@ManyToOne
+	@JoinColumn(name = "cardapio_icone_id", nullable = false)
+	private CardapioIcone cardapioIcone;
 	
 	@OneToMany(mappedBy = "cardapio")
 	private List<Pedido> pedidos;

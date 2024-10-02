@@ -47,9 +47,9 @@ public class Pedido {
 	private LocalDateTime updated;
 
 	public Pedido(DadosCadastroPedido dadosCadastroPedido) {
-		this.cardapio = new Cardapio(dadosCadastroPedido.cardapio());
+ 		this.cardapio = new Cardapio(dadosCadastroPedido.cardapio().id());
 		this.quantidade = dadosCadastroPedido.quantidade();
-		this.atendimento = new Atendimento(dadosCadastroPedido.atendimento());
+		this.atendimento = new Atendimento(dadosCadastroPedido.atendimento().id());
 		this.ativo = true;
 	}
 
