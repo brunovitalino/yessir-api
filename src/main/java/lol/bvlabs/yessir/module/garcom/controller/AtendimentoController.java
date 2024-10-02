@@ -1,5 +1,8 @@
 package lol.bvlabs.yessir.module.garcom.controller;
 
+import java.net.URI;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.Atendimento;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoRepository;
@@ -32,7 +36,7 @@ public class AtendimentoController {
 	AtendimentoRepository atendimentoRepository;
 
 	@GetMapping
-	public ResponseEntity<Page<DadosListagemAtendimento>> getAll(@PageableDefault(size = 10) Pageable paginacao,
+	public ResponseEntity<Page<DadosListagemAtendimento>> getAll(@PageableDefault(size = 20) Pageable paginacao,
 			@RequestParam(required = false) String nomeAtendente) {
 		if (nomeAtendente != null) {
 			return ResponseEntity.ok(atendimentoRepository.findByAtendenteNome(paginacao, nomeAtendente).map(DadosListagemAtendimento::new));
@@ -50,10 +54,23 @@ public class AtendimentoController {
 		return ResponseEntity.ok(new DadosListagemAtendimento(atendimento.get()));
 	}
 
+	@GetMapping("/mesa/{id}")
+	public ResponseEntity<DadosListagemAtendimento> getAllByMesaId(@PageableDefault(size = 10) Pageable paginacao,
+			@PathVariable Long id) {
+		List<Atendimento> atendimentoList = atendimentoRepository.findAllAtivoByMesaId(id);
+		if (atendimentoList.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		Atendimento atendimentoMaisRecente = atendimentoList.stream().max((a, p) -> a.getId().compareTo(p.getId())).get();
+		return ResponseEntity.ok(new DadosListagemAtendimento(atendimentoMaisRecente));
+	}
+
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody DadosCadastroAtendimento dadosCadastroAtendimento) {
-		atendimentoRepository.save(new Atendimento(dadosCadastroAtendimento));
+	public ResponseEntity<Atendimento> post(@RequestBody DadosCadastroAtendimento dadosCadastroAtendimento, UriComponentsBuilder uriBuilder) {
+		var atendimento = atendimentoRepository.save(new Atendimento(dadosCadastroAtendimento));
+		URI uri = uriBuilder.path("/atendimentos/{id}").buildAndExpand(atendimento.getId()).toUri();
+		return ResponseEntity.created(uri).body(atendimento);
 	}
 
 	@PutMapping

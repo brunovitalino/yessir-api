@@ -2,11 +2,10 @@ package lol.bvlabs.yessir.module.garcom.domain.mesa;
 
 public record DadosListagemMesa(
 		Long id,
-		String nome,
-		Boolean ativo
+		String nome
 ) {
 	
 	public DadosListagemMesa(Mesa mesa) {
-		this(mesa.getId(), mesa.getNome(), mesa.getAtivo());
+		this(mesa.getId(), mesa.getNome());
 	}
 }

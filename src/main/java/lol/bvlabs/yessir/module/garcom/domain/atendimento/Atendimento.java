@@ -6,6 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,13 +31,18 @@ public class Atendimento {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@ManyToOne
 	@JoinColumn(name = "mesa_id", nullable = false)
 	private Mesa mesa;
+	
 	@ManyToOne
 	@JoinColumn(name = "atendente_id", nullable = false)
 	private Atendente atendente;
-	private AtendimentoStatus status;
+	
+	@Enumerated(EnumType.STRING)
+	private AtendimentoStatusEnum status;
+
 	private Boolean ativo;
 	@CreationTimestamp
 	private LocalDateTime created;
@@ -43,18 +50,18 @@ public class Atendimento {
 	private LocalDateTime updated;
 
 	public Atendimento(DadosCadastroAtendimento dadosCadastroAtendimento) {
-		this.mesa = new Mesa(dadosCadastroAtendimento.mesaId());
-		this.atendente = new Atendente(dadosCadastroAtendimento.atendenteId());
+		this.mesa = new Mesa(dadosCadastroAtendimento.mesa().id());
+		this.atendente = new Atendente(dadosCadastroAtendimento.atendente().id());
 		this.status = dadosCadastroAtendimento.status();
 		this.ativo = true;
 	}
 
 	public void atualizarInformacoes(DadosAtualizacaoAtendimento dadosAtualizacaoAtendimento) {
-		if (dadosAtualizacaoAtendimento.mesaId() != null) {
-			this.mesa = new Mesa(dadosAtualizacaoAtendimento.mesaId());
+		if (dadosAtualizacaoAtendimento.mesa() != null && dadosAtualizacaoAtendimento.mesa().id() != null) {
+			this.mesa = new Mesa(dadosAtualizacaoAtendimento.mesa().id());
 		}
-		if (dadosAtualizacaoAtendimento.atendenteId() != null) {
-			this.atendente = new Atendente(dadosAtualizacaoAtendimento.atendenteId());
+		if (dadosAtualizacaoAtendimento.atendente() != null && dadosAtualizacaoAtendimento.atendente().id() != null) {
+			this.atendente = new Atendente(dadosAtualizacaoAtendimento.atendente().id());
 		}
 		if (dadosAtualizacaoAtendimento.status() != null) {
 			this.status = dadosAtualizacaoAtendimento.status();

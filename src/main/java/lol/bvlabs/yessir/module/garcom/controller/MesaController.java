@@ -32,7 +32,7 @@ public class MesaController {
 	MesaRepository mesaRepository;
 
 	@GetMapping
-	public ResponseEntity<Page<DadosListagemMesa>> getAll(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao,
+	public ResponseEntity<Page<DadosListagemMesa>> getAll(@PageableDefault(size = 20, sort = {"id"}) Pageable paginacao,
 			@RequestParam(required = false) String nome) {
 		if (nome != null) {
 			return ResponseEntity.ok(mesaRepository.findByNome(paginacao, nome).map(DadosListagemMesa::new));
