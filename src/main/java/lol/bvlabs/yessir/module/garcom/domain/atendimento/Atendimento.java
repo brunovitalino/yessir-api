@@ -1,6 +1,7 @@
 package lol.bvlabs.yessir.module.garcom.domain.atendimento;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,9 +14,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lol.bvlabs.yessir.module.garcom.domain.atendente.Atendente;
 import lol.bvlabs.yessir.module.garcom.domain.mesa.Mesa;
+import lol.bvlabs.yessir.module.garcom.domain.pedido.Pedido;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,12 +45,20 @@ public class Atendimento {
 	
 	@Enumerated(EnumType.STRING)
 	private AtendimentoStatusEnum status;
+	
+	@OneToMany(mappedBy = "atendimento")
+	private List<Pedido> pedidos;
 
 	private Boolean ativo;
 	@CreationTimestamp
 	private LocalDateTime created;
 	@UpdateTimestamp
 	private LocalDateTime updated;
+
+
+	public Atendimento(Long id) {
+		this.id = id;
+	}
 
 	public Atendimento(DadosCadastroAtendimento dadosCadastroAtendimento) {
 		this.mesa = new Mesa(dadosCadastroAtendimento.mesa().id());

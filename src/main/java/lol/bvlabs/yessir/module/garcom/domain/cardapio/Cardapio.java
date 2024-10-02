@@ -1,6 +1,7 @@
 package lol.bvlabs.yessir.module.garcom.domain.cardapio;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,8 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lol.bvlabs.yessir.module.garcom.domain.estabelecimento.Estabelecimento;
+import lol.bvlabs.yessir.module.garcom.domain.pedido.Pedido;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,9 +31,18 @@ public class Cardapio {
 	private String nome;
 	private BigDecimal preco;
 	private Boolean ativo;
+
 	@ManyToOne
 	@JoinColumn(name = "estabelecimento_id", nullable = false)
 	private Estabelecimento estabelecimento;
+	
+	@OneToMany(mappedBy = "cardapio")
+	private List<Pedido> pedidos;
+
+
+	public Cardapio(Long id) {
+		this.id = id;
+	}
 
 	public Cardapio(DadosCadastroCardapio dadosCadastroCardapio) {
 		this.nome = dadosCadastroCardapio.nome();
