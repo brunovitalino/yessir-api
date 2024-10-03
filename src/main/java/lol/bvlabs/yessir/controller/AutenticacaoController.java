@@ -15,7 +15,7 @@ import lol.bvlabs.yessir.infra.security.DadosJWTToken;
 import lol.bvlabs.yessir.infra.security.TokenService;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/auth/login")
 public class AutenticacaoController {
 	
 	@Autowired
@@ -26,7 +26,7 @@ public class AutenticacaoController {
 	
 	@PostMapping
 	public ResponseEntity<DadosJWTToken> efetuarLogin(@RequestBody DadosAutenticacao dados) {
-		var tokenAuthentication = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+		var tokenAuthentication = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
 		var authentication = authenticationManager.authenticate(tokenAuthentication);
 		var tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
 		return ResponseEntity.ok(new DadosJWTToken(tokenJWT));

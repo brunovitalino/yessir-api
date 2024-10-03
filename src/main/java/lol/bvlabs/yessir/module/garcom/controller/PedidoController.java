@@ -1,6 +1,7 @@
 package lol.bvlabs.yessir.module.garcom.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,16 @@ public class PedidoController {
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(new DadosListagemPedido(pedido.get()));
+	}
+
+	@GetMapping("/atendimento/{id}")
+	public ResponseEntity<List<DadosListagemPedido>> getAllByMesaId(@PathVariable Long id) {
+		List<Pedido> pedidoList = pedidoRepository.findAllAtivoByAtendimentoId(id);
+		if (pedidoList.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		//Pedido pedidoMaisRecente = pedidoList.stream().max((a, p) -> a.getId().compareTo(p.getId())).get();
+		return ResponseEntity.ok(pedidoList.stream().map(DadosListagemPedido::new).toList());
 	}
 
 	@PostMapping

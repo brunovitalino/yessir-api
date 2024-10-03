@@ -1,5 +1,5 @@
 package lol.bvlabs.yessir.infra.security;
 
 public record DadosJWTToken(
-	String tokenJWT
+	String access_token
 ) {}
