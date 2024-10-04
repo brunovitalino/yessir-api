@@ -3,6 +3,8 @@ package lol.bvlabs.yessir.infra.security;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,10 @@ public class TokenService {
 		    return JWT.create()
 		        .withIssuer("API YesSir")
 		        .withSubject(usuario.getUsername())
+		        .withPayload(Map.of("roles", usuario.getRoles().stream()
+		        		.filter(r -> r.getAtivo())
+		        		.map(r -> r.getNome().substring(0, r.getNome().indexOf("_ROLE")))
+		        		.collect(Collectors.joining(","))))
 		        .withExpiresAt(dataExpiracao())
 		        .sign(algorithm);
 		} catch (JWTCreationException exception){
