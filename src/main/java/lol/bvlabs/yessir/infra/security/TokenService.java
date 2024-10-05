@@ -28,7 +28,9 @@ public class TokenService {
 		    return JWT.create()
 		        .withIssuer("API YesSir")
 		        .withSubject(usuario.getUsername())
-		        .withPayload(Map.of("roles", usuario.getRoles().stream()
+		        .withPayload(Map.of(
+		        		"mesaId", usuario.getMesa() == null || usuario.getMesa().getId() == null ? "" : usuario.getMesa().getId(),
+		        		"roles", usuario.getRoles().stream()
 		        		.filter(r -> r.getAtivo())
 		        		.map(r -> r.getNome().substring(0, r.getNome().indexOf("_ROLE")))
 		        		.collect(Collectors.joining(","))))

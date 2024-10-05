@@ -1,11 +1,11 @@
 package lol.bvlabs.yessir.module.garcom.domain.pedido;
 
-import lol.bvlabs.yessir.module.garcom.domain.atendimento.DadosCadastroAtendimento;
-import lol.bvlabs.yessir.module.garcom.domain.cardapio.DadosCadastroCardapio;
+import lol.bvlabs.yessir.module.garcom.domain.atendimento.DadosListagemAtendimento;
+import lol.bvlabs.yessir.module.garcom.domain.cardapio.DadosListagemCardapio;
 
 public record DadosAtualizacaoPedido(
 	Long id,
-	DadosCadastroAtendimento atendimento,
-	DadosCadastroCardapio cardapio,
+	DadosListagemAtendimento atendimento,
+	DadosListagemCardapio cardapio,
 	Integer quantidade
 ) {}

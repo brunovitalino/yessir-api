@@ -47,18 +47,21 @@ public class Pedido {
 	private LocalDateTime updated;
 
 	public Pedido(DadosCadastroPedido dadosCadastroPedido) {
+		this.atendimento = new Atendimento(dadosCadastroPedido.atendimento().id());
  		this.cardapio = new Cardapio(dadosCadastroPedido.cardapio().id());
 		this.quantidade = dadosCadastroPedido.quantidade();
-		this.atendimento = new Atendimento(dadosCadastroPedido.atendimento().id());
 		this.ativo = true;
 	}
 
 	public void atualizarInformacoes(DadosAtualizacaoPedido dadosAtualizacaoPedido) {
+		if (dadosAtualizacaoPedido.atendimento() != null && dadosAtualizacaoPedido.atendimento().id() != null) {
+			this.atendimento = new Atendimento(dadosAtualizacaoPedido.atendimento().id());
+		}
 		if (dadosAtualizacaoPedido.cardapio() != null && dadosAtualizacaoPedido.cardapio().id() != null) {
 			this.cardapio = new Cardapio(dadosAtualizacaoPedido.cardapio().id());
 		}
-		if (dadosAtualizacaoPedido.atendimento() != null && dadosAtualizacaoPedido.atendimento().id() != null) {
-			this.atendimento = new Atendimento(dadosAtualizacaoPedido.atendimento().id());
+		if (dadosAtualizacaoPedido.quantidade() != null) {
+			this.quantidade = dadosAtualizacaoPedido.quantidade();
 		}
 	}
 

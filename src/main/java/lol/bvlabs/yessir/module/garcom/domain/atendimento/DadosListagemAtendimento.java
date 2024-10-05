@@ -9,8 +9,12 @@ public record DadosListagemAtendimento(
 		DadosListagemAtendente atendente,
 		AtendimentoStatusEnum status
 ) {
-	
 	public DadosListagemAtendimento(Atendimento atendimento) {
-		this(atendimento.getId(), new DadosListagemMesa(atendimento.getMesa()), new DadosListagemAtendente(atendimento.getAtendente()), atendimento.getStatus());
+		this(
+			atendimento.getId(),
+			atendimento.getMesa() == null ? null : new DadosListagemMesa(atendimento.getMesa()),
+			atendimento.getAtendente() == null ? null : new DadosListagemAtendente(atendimento.getAtendente()),
+			atendimento.getStatus()
+		);
 	}
 }

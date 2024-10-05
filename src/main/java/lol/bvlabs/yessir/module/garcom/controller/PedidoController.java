@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoRepository;
+import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoStatusEnum;
+import lol.bvlabs.yessir.module.garcom.domain.cardapio.CardapioRepository;
 import lol.bvlabs.yessir.module.garcom.domain.pedido.DadosAtualizacaoPedido;
 import lol.bvlabs.yessir.module.garcom.domain.pedido.DadosCadastroPedido;
 import lol.bvlabs.yessir.module.garcom.domain.pedido.DadosListagemPedido;
@@ -32,6 +37,12 @@ public class PedidoController {
 	
 	@Autowired
 	PedidoRepository pedidoRepository;
+	
+	@Autowired
+	AtendimentoRepository atendimentoRepository;
+	
+	@Autowired
+	CardapioRepository cardapioRepository;
 
 	@GetMapping
 	public ResponseEntity<Page<DadosListagemPedido>> getAll(@PageableDefault(size = 20, sort = {"id"}) Pageable paginacao) {
@@ -54,16 +65,53 @@ public class PedidoController {
 		if (pedidoList.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		//Pedido pedidoMaisRecente = pedidoList.stream().max((a, p) -> a.getId().compareTo(p.getId())).get();
 		return ResponseEntity.ok(pedidoList.stream().map(DadosListagemPedido::new).toList());
 	}
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Pedido> post(@RequestBody DadosCadastroPedido dadosCadastroPedido, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<DadosListagemPedido> post(@RequestBody DadosCadastroPedido dadosCadastroPedido, UriComponentsBuilder uriBuilder) {
+		if (dadosCadastroPedido == null) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Sem informações de Pedido.")).build();
+		}
+		if (dadosCadastroPedido.atendimento() == null || dadosCadastroPedido.atendimento().id() == null) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Id de Atendimento inválido.")).build();
+		}
+		if (dadosCadastroPedido.cardapio() == null || dadosCadastroPedido.cardapio().id() == null) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Id de Cardápio inválido.")).build();
+		}
+		if (dadosCadastroPedido.quantidade() == null || dadosCadastroPedido.quantidade() < 1) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Quantidade inválido.")).build();
+		}
+
+		var atendimento = atendimentoRepository.findAtivoById(dadosCadastroPedido.atendimento().id());
+		if (atendimento.isEmpty()) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Atendimento não existe.")).build();
+		}
+		if (AtendimentoStatusEnum.ENCERRADO.equals(atendimento.get().getStatus())) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Atendimento se encontra encerrado.")).build();
+		}
+		
+		var cardapio = cardapioRepository.findById(dadosCadastroPedido.cardapio().id());
+		if (cardapio.isEmpty()) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Cardápio não existe.")).build();
+		}
+		
+		var pedidoExistente = pedidoRepository.findAllAtivoByAtendimentoIdAndCardapioId(atendimento.get().getId(), cardapio.get().getId());
+		if (!pedidoExistente.isEmpty()) {
+			var dadosAtualizacaoPedido = new DadosAtualizacaoPedido(
+					null, null, null, pedidoExistente.get().getQuantidade() + dadosCadastroPedido.quantidade()
+			);
+			pedidoExistente.get().atualizarInformacoes(dadosAtualizacaoPedido);
+			var dadosListagemPedido = new DadosListagemPedido(pedidoExistente.get());
+			URI uri = uriBuilder.path("/atendimentos/{id}").buildAndExpand(dadosListagemPedido.id()).toUri();
+			return ResponseEntity.created(uri).body(dadosListagemPedido);
+		}
+		
 		var pedido = pedidoRepository.save(new Pedido(dadosCadastroPedido));
-		URI uri = uriBuilder.path("/atendimentos/{id}").buildAndExpand(pedido.getId()).toUri();
-		return ResponseEntity.created(uri).body(pedido);
+		var dadosListagemPedido = new DadosListagemPedido(pedido);
+		URI uri = uriBuilder.path("/atendimentos/{id}").buildAndExpand(dadosListagemPedido.id()).toUri();
+		return ResponseEntity.created(uri).body(dadosListagemPedido);
 	}
 
 	@PutMapping

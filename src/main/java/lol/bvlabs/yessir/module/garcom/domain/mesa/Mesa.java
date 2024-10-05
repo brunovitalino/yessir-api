@@ -1,7 +1,7 @@
 package lol.bvlabs.yessir.module.garcom.domain.mesa;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,7 +11,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lol.bvlabs.yessir.domain.usuario.Usuario;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.Atendimento;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,8 +32,13 @@ public class Mesa {
 	private Long id;
 	private String nome;
 	private Boolean ativo;
+
 	@OneToMany(mappedBy = "mesa")
-	private Set<Atendimento> atendimentos;
+	private List<Atendimento> atendimentos;
+	
+    @OneToOne(mappedBy = "mesa")
+    private Usuario usuario;
+
 	@CreationTimestamp
 	private LocalDateTime created;
 	@UpdateTimestamp

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,8 @@ import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoRepository;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.DadosAtualizacaoAtendimento;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.DadosCadastroAtendimento;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.DadosListagemAtendimento;
+import lol.bvlabs.yessir.module.garcom.domain.mesa.DadosListagemMesa;
+import lol.bvlabs.yessir.module.garcom.domain.mesa.MesaRepository;
 
 @RestController
 @RequestMapping("/atendimentos")
@@ -33,6 +37,9 @@ public class AtendimentoController {
 	
 	@Autowired
 	AtendimentoRepository atendimentoRepository;
+	
+	@Autowired
+	MesaRepository mesaRepository;
 
 	@GetMapping
 	public ResponseEntity<Page<DadosListagemAtendimento>> getAll(@PageableDefault(size = 20) Pageable paginacao,
@@ -56,7 +63,7 @@ public class AtendimentoController {
 	@GetMapping("/mesa/{id}")
 	public ResponseEntity<DadosListagemAtendimento> getAllByMesaId(@PageableDefault(size = 10) Pageable paginacao,
 			@PathVariable Long id) {
-		List<Atendimento> atendimentoList = atendimentoRepository.findAllAtivoByMesaId(id);
+		List<Atendimento> atendimentoList = atendimentoRepository.findAllAtivosByMesaId(id);
 		if (atendimentoList.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
@@ -66,10 +73,23 @@ public class AtendimentoController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<Atendimento> post(@RequestBody DadosCadastroAtendimento dadosCadastroAtendimento, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<DadosListagemAtendimento> post(@RequestBody DadosCadastroAtendimento dadosCadastroAtendimento, UriComponentsBuilder uriBuilder) {
+		if (dadosCadastroAtendimento == null || dadosCadastroAtendimento.mesa() == null || dadosCadastroAtendimento.mesa().id() == null) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Id de Mesa inválido.")).build();
+		}
+		var mesa = mesaRepository.findById(dadosCadastroAtendimento.mesa().id());
+		if (mesa.isEmpty()) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Mesa não existe.")).build();
+		}
+		var atendimentoAtivoListByMesaId = atendimentoRepository.findAllAtivosByMesaId(mesa.get().getId());
+		if (!atendimentoAtivoListByMesaId.isEmpty()) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, "Já existe atendimentos em espera para essa Mesa.")).build();
+		}
 		var atendimento = atendimentoRepository.save(new Atendimento(dadosCadastroAtendimento));
-		URI uri = uriBuilder.path("/atendimentos/{id}").buildAndExpand(atendimento.getId()).toUri();
-		return ResponseEntity.created(uri).body(atendimento);
+		var dadosListagemMesa = new DadosListagemMesa(mesa.get());
+		var dadosListagemAtendimento = new DadosListagemAtendimento(atendimento.getId(), dadosListagemMesa, null, atendimento.getStatus());
+		URI uri = uriBuilder.path("/atendimentos/{id}").buildAndExpand(dadosListagemAtendimento.id()).toUri();
+		return ResponseEntity.created(uri).body(dadosListagemAtendimento);
 	}
 
 	@PutMapping

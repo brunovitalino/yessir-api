@@ -11,6 +11,11 @@ public record DadosListagemPedido(
 ) {
 	
 	public DadosListagemPedido(Pedido pedido) {
-		this(pedido.getId(), new DadosListagemAtendimento(pedido.getAtendimento()), new DadosListagemCardapio(pedido.getCardapio()), pedido.getQuantidade());
+		this(
+			pedido.getId(),
+			pedido.getAtendimento() == null ? null : new DadosListagemAtendimento(pedido.getAtendimento()),
+			pedido.getCardapio() == null ? null : new DadosListagemCardapio(pedido.getCardapio()),
+			pedido.getQuantidade()
+		);
 	}
 }

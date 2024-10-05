@@ -14,6 +14,12 @@ public record DadosListagemCardapio(
 ) {
 	
 	public DadosListagemCardapio(Cardapio cardapio) {
-		this(cardapio.getId(), cardapio.getNome(), cardapio.getPreco(), new DadosListagemCardapioTipo(cardapio.getCardapioTipo()), new DadosListagemCardapioIcone(cardapio.getCardapioIcone()));
+		this(
+			cardapio.getId(),
+			cardapio.getNome(),
+			cardapio.getPreco(),
+			cardapio.getCardapioTipo() == null ? null : new DadosListagemCardapioTipo(cardapio.getCardapioTipo()),
+			cardapio.getCardapioIcone() == null ? null : new DadosListagemCardapioIcone(cardapio.getCardapioIcone())
+		);
 	}
 }

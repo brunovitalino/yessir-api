@@ -11,14 +11,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
+import lol.bvlabs.yessir.module.garcom.domain.mesa.Mesa;
 import lol.bvlabs.yessir.module.garcom.domain.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -43,14 +47,20 @@ public class Usuario implements UserDetails {
 	private String email;
 	@NotEmpty
 	private String senha;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Role> roles = new ArrayList<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mesa_id", referencedColumnName = "id")
+    private Mesa mesa;
+	
 	private Boolean ativo;
 	@CreationTimestamp
 	private LocalDateTime created;
 	@UpdateTimestamp
 	private LocalDateTime updated;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Role> roles = new ArrayList<>();
 
 	public Usuario(DadosCadastroUsuario dadosUsuario) {
 		this.ativo = true;

@@ -1,6 +1,7 @@
 package lol.bvlabs.yessir.module.garcom.domain.atendimento;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,10 @@ public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> 
 	
 	List<Atendimento> findAllByMesaId(Long mesaId);
 	
-	@Query("SELECT a FROM Atendimento a WHERE a.mesa.id = :mesaId AND a.status = EM_ATENDIMENTO AND a.ativo = true")
-	List<Atendimento> findAllAtivoByMesaId(Long mesaId);
+	@Query("SELECT a FROM Atendimento a WHERE a.ativo = true AND a.status != ENCERRADO AND a.mesa.id = :mesaId")
+	List<Atendimento> findAllAtivosByMesaId(Long mesaId);
+
+	@Query("SELECT a FROM Atendimento a WHERE a.ativo = true AND a.id = :id ")
+	Optional<Atendimento> findAtivoById(Long id);
 
 }

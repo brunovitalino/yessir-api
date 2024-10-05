@@ -62,8 +62,10 @@ public class Atendimento {
 
 	public Atendimento(DadosCadastroAtendimento dadosCadastroAtendimento) {
 		this.mesa = new Mesa(dadosCadastroAtendimento.mesa().id());
-		this.atendente = new Atendente(dadosCadastroAtendimento.atendente().id());
-		this.status = dadosCadastroAtendimento.status();
+		if (dadosCadastroAtendimento.atendente() != null && dadosCadastroAtendimento.atendente().id() != null) {
+			this.atendente = new Atendente(dadosCadastroAtendimento.atendente().id());
+		}
+		this.status = AtendimentoStatusEnum.AGUARDANDO;
 		this.ativo = true;
 	}
 
