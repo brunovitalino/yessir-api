@@ -59,9 +59,9 @@ public class PedidoController {
 		return ResponseEntity.ok(new DadosListagemPedido(pedido.get()));
 	}
 
-	@GetMapping("/atendimento/{id}")
-	public ResponseEntity<List<DadosListagemPedido>> getAllByMesaId(@PathVariable Long id) {
-		List<Pedido> pedidoList = pedidoRepository.findAllAtivoByAtendimentoId(id);
+	@GetMapping("/atendimento/{atendimentoId}")
+	public ResponseEntity<List<DadosListagemPedido>> getAllByMesaId(@PathVariable Long atendimentoId) {
+		List<Pedido> pedidoList = pedidoRepository.findAllByAtendimentoId(atendimentoId);
 		if (pedidoList.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}

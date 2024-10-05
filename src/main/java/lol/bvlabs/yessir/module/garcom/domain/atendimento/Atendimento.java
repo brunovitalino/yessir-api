@@ -40,7 +40,7 @@ public class Atendimento {
 	private Mesa mesa;
 	
 	@ManyToOne
-	@JoinColumn(name = "atendente_id", nullable = false)
+	@JoinColumn(name = "atendente_id")
 	private Atendente atendente;
 	
 	@Enumerated(EnumType.STRING)

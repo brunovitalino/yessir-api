@@ -11,15 +11,11 @@ import org.springframework.data.jpa.repository.Query;
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
 	Page<Pedido> findAllByAtivoTrue(Pageable paginacao);
-	
-	@Query("SELECT p FROM Pedido p WHERE p.ativo = true")
-	Page<Pedido> findAllAtivoById(Pageable paginacao);
 
-	@Query("SELECT p FROM Pedido p WHERE p.ativo = true AND p.atendimento.id = :atendimentoId")
-	List<Pedido> findAllAtivoByAtendimentoId(Long atendimentoId);
+	@Query("SELECT p FROM Pedido p WHERE p.ativo = true AND p.atendimento.id = :atendimentoId ORDER BY p.id ASC")
+	List<Pedido> findAllByAtendimentoId(Long atendimentoId);
 
 	@Query("SELECT p FROM Pedido p WHERE p.ativo = true AND p.atendimento.id = :atendimentoId AND p.cardapio.id = :cardapioId ORDER BY p.id DESC LIMIT 1")
 	Optional<Pedido> findAllAtivoByAtendimentoIdAndCardapioId(Long atendimentoId, Long cardapioId);
-	
 
 }

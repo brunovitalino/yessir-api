@@ -21,6 +21,9 @@ public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> 
 	@Query("SELECT a FROM Atendimento a WHERE a.ativo = true AND a.status != ENCERRADO AND a.mesa.id = :mesaId")
 	List<Atendimento> findAllAtivosByMesaId(Long mesaId);
 
+	@Query("SELECT a FROM Atendimento a WHERE a.ativo = true AND a.status != ENCERRADO AND a.mesa.id = :mesaId ORDER BY a.id ASC LIMIT 1")
+	Optional<Atendimento> findOneAtivoByMesaId(Long mesaId);
+
 	@Query("SELECT a FROM Atendimento a WHERE a.ativo = true AND a.id = :id ")
 	Optional<Atendimento> findAtivoById(Long id);
 

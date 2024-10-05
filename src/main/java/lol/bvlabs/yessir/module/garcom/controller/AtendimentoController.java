@@ -1,7 +1,6 @@
 package lol.bvlabs.yessir.module.garcom.controller;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,14 +60,14 @@ public class AtendimentoController {
 	}
 
 	@GetMapping("/mesa/{id}")
-	public ResponseEntity<DadosListagemAtendimento> getAllByMesaId(@PageableDefault(size = 10) Pageable paginacao,
+	public ResponseEntity<DadosListagemAtendimento> getOneByMesaId(@PageableDefault(size = 10) Pageable paginacao,
 			@PathVariable Long id) {
-		List<Atendimento> atendimentoList = atendimentoRepository.findAllAtivosByMesaId(id);
-		if (atendimentoList.isEmpty()) {
+		var atendimento = atendimentoRepository.findOneAtivoByMesaId(id);
+		if (atendimento.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		Atendimento atendimentoMaisRecente = atendimentoList.stream().max((a, p) -> a.getId().compareTo(p.getId())).get();
-		return ResponseEntity.ok(new DadosListagemAtendimento(atendimentoMaisRecente));
+		//Atendimento atendimentoMaisRecente = atendimento.stream().max((a, p) -> a.getId().compareTo(p.getId())).get();
+		return ResponseEntity.ok(new DadosListagemAtendimento(atendimento.get()));
 	}
 
 	@PostMapping
