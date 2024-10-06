@@ -93,9 +93,13 @@ public class AtendimentoController {
 
 	@PutMapping
 	@Transactional
-	public void put(@RequestBody DadosAtualizacaoAtendimento dadosAtualizacaoAtendimento) {
+	public ResponseEntity<DadosListagemAtendimento> put(@RequestBody DadosAtualizacaoAtendimento dadosAtualizacaoAtendimento) {
+		if (dadosAtualizacaoAtendimento == null) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Sem informações de Atendimento.")).build();
+		}
 		var atendimento = atendimentoRepository.getReferenceById(dadosAtualizacaoAtendimento.id());
 		atendimento.atualizarInformacoes(dadosAtualizacaoAtendimento);
+		return ResponseEntity.ok(new DadosListagemAtendimento(atendimento));
 	}
 
 	@DeleteMapping("/{id}")

@@ -116,9 +116,13 @@ public class PedidoController {
 
 	@PutMapping
 	@Transactional
-	public void put(@RequestBody DadosAtualizacaoPedido dadosAtualizacaoPedido) {
+	public ResponseEntity<DadosListagemPedido> put(@RequestBody DadosAtualizacaoPedido dadosAtualizacaoPedido) {
+		if (dadosAtualizacaoPedido == null) {
+			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Sem informações de Pedido.")).build();
+		}
 		var pedido = pedidoRepository.getReferenceById(dadosAtualizacaoPedido.id());
 		pedido.atualizarInformacoes(dadosAtualizacaoPedido);
+		return ResponseEntity.ok(new DadosListagemPedido(pedido));
 	}
 
 	@DeleteMapping("/{id}")
