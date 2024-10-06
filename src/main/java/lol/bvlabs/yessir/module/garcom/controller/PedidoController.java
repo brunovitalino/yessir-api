@@ -127,8 +127,9 @@ public class PedidoController {
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void delete(@PathVariable Long id) {
+	public ResponseEntity<?> delete(@PathVariable Long id) {
 		var pedido = pedidoRepository.getReferenceById(id);
 		pedido.excluir();
+		return ResponseEntity.ok().build();
 	}
 }
