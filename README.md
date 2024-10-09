@@ -62,18 +62,18 @@ Agora sim, deixe os dois terminais (database e api) em execução e estará tudo
 
 Com a aplicação em execução, abra o seu navegador e acesse [http://localhost:8080/api](http://localhost:8080/api) para ter acesso ao Swagger, onde estarão listados os endpoints da API e como ela funciona:
 
-![Swagger](printswagger.png)
+![Swagger](printswagger-geral.png)
 
 
 ## Autenticação
 
 Você pode se cadastrar utilizando o endpoint:
 
-![Swagger](cadastro.png)
+![Swagger](printswagger-cadastro.png)
 
 E se autenticar utilizando o endpoint:
 
-![Swagger](login.png)
+![Swagger](printswagger-autenticacao.png)
 
 E depois, basta adicionar o token ao header das requisições autenticadas:
 
