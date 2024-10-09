@@ -174,3 +174,6 @@ buildNumber.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,maven
 /.apt_generated_tests/
+
+# YesSir database via docker
+yessir-database/
