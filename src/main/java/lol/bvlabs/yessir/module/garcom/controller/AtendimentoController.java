@@ -64,7 +64,7 @@ public class AtendimentoController {
 			@PathVariable Long id) {
 		var atendimento = atendimentoRepository.findOneAtivoByMesaId(id);
 		if (atendimento.isEmpty()) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.noContent().build();
 		}
 		//Atendimento atendimentoMaisRecente = atendimento.stream().max((a, p) -> a.getId().compareTo(p.getId())).get();
 		return ResponseEntity.ok(new DadosListagemAtendimento(atendimento.get()));
