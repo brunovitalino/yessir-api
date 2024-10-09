@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.Cardapio;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.CardapioRepository;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.DadosAtualizacaoCardapio;
@@ -24,6 +25,7 @@ import lol.bvlabs.yessir.module.garcom.domain.cardapio.DadosListagemCardapio;
 
 @RestController
 @RequestMapping("/cardapios")
+@SecurityRequirement(name = "bearer-key")
 public class CardapioController {
 	
 	@Autowired

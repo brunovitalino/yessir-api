@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoRepository;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoStatusEnum;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.CardapioRepository;
@@ -33,6 +34,7 @@ import lol.bvlabs.yessir.module.garcom.domain.pedido.PedidoRepository;
 
 @RestController
 @RequestMapping("/pedidos")
+@SecurityRequirement(name = "bearer-key")
 public class PedidoController {
 	
 	@Autowired

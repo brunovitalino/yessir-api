@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lol.bvlabs.yessir.domain.usuario.DadosAtualizacaoUsuario;
 import lol.bvlabs.yessir.domain.usuario.DadosCadastroUsuario;
 import lol.bvlabs.yessir.domain.usuario.DadosListagemUsuario;
@@ -24,6 +25,7 @@ import lol.bvlabs.yessir.domain.usuario.UsuarioRepository;
 
 @RestController
 @RequestMapping("/usuarios")
+@SecurityRequirement(name = "bearer-key")
 public class UsuarioController {
 	
 	@Autowired

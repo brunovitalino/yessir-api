@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lol.bvlabs.yessir.module.garcom.domain.mesa.DadosAtualizacaoMesa;
 import lol.bvlabs.yessir.module.garcom.domain.mesa.DadosCadastroMesa;
 import lol.bvlabs.yessir.module.garcom.domain.mesa.DadosListagemMesa;
@@ -26,6 +27,7 @@ import lol.bvlabs.yessir.module.garcom.domain.mesa.MesaRepository;
 
 @RestController
 @RequestMapping("/mesas")
+@SecurityRequirement(name = "bearer-key")
 public class MesaController {
 	
 	@Autowired

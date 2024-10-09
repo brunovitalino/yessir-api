@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lol.bvlabs.yessir.module.garcom.domain.atendente.Atendente;
 import lol.bvlabs.yessir.module.garcom.domain.atendente.AtendenteRepository;
 import lol.bvlabs.yessir.module.garcom.domain.atendente.DadosAtualizacaoAtendente;
@@ -26,6 +27,7 @@ import lol.bvlabs.yessir.module.garcom.domain.atendente.DadosListagemAtendente;
 
 @RestController
 @RequestMapping("/atendentes")
+@SecurityRequirement(name = "bearer-key")
 public class AtendenteController {
 	
 	@Autowired

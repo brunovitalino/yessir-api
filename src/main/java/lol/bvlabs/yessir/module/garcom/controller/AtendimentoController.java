@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.Atendimento;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoRepository;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.DadosAtualizacaoAtendimento;
@@ -32,6 +33,7 @@ import lol.bvlabs.yessir.module.garcom.domain.mesa.MesaRepository;
 
 @RestController
 @RequestMapping("/atendimentos")
+@SecurityRequirement(name = "bearer-key")
 public class AtendimentoController {
 	
 	@Autowired
