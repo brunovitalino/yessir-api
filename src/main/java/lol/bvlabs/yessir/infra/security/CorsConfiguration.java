@@ -10,8 +10,14 @@ public class CorsConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("http://localhost:4200", "http://localhost:4280")
-            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT");
+            .allowedOrigins("*"
+                //"http://localhost:4200",
+                //"http://www.bvlabs.lol:80, http://54.89.37.115:80",
+                //"http://yessir-api-homol-application-lb-1320874028.us-east-1.elb.amazonaws.com:80"
+            ).allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
+            .allowedHeaders("*")
+            //.allowCredentials(true)
+            .maxAge(Long.valueOf(3600));
     }
 
 }

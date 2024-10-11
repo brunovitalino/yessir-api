@@ -25,9 +25,6 @@ services:
 
   yessir-api:
     container_name: yessir-api
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: docker.io/brunovitalino/yessir-api-image:latest
     environment:
       DATABASE_HOST: 'yessir-postgres'

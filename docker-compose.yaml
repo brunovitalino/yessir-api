@@ -32,7 +32,7 @@ services:
     environment:
       DATABASE_HOST: 'yessir-postgres'
     ports:
-      - 8080:8080
+      - 8080:80
     networks:
       - database
       - api
