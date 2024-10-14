@@ -9,6 +9,11 @@ Essa será a API inicial para permitir o desenvolvimento do frontend.
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Spring_Boot.svg/512px-Spring_Boot.svg.png?20230616230349" width="150px">
 
 
+## 🛠️ Site
+
+[http://www.bvlabs.lol](http://www.bvlabs.lol)
+
+
 ## 🛠️ Instalação via Docker
 
 ###### Pré-requisito mínimo
@@ -48,11 +53,13 @@ $ docker-compose up
 
 ## 🛠️ Execução manual
 
-Abra outro terminal, entre na pasta raiz do projeto e execute o seguinte comando:
+Abra outro terminal, entre na pasta raiz do projeto e execute os seguintes comandos:
 
 ```bash
-$ mvn package -Dmaven.test.skip
-$ java -Dspring.profiles.active=default -jar yessir.jar
+mvn package -Dmaven.test.skip
+```
+```bash
+java -Dspring.profiles.active=default -jar yessir.jar
 ```
 
 Agora sim, deixe os dois terminais (database e api) em execução e estará tudo pronto para realização de testes!
@@ -60,7 +67,7 @@ Agora sim, deixe os dois terminais (database e api) em execução e estará tudo
 
 ## 🛠️ Documentação
 
-Com a aplicação em execução, abra o seu navegador e acesse [http://localhost:8080/api](http://localhost:8080/api) para ter acesso ao Swagger, onde estarão listados os endpoints da API e como ela funciona:
+Com a aplicação em execução, abra o seu navegador e acesse [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html) para ter acesso ao Swagger, onde estarão listados os endpoints da API e como ela funciona:
 
 ![Swagger](printswagger-geral.png)
 
