@@ -14,6 +14,15 @@ Essa será a API inicial para permitir o desenvolvimento do frontend.
 [http://www.bvlabs.lol](http://www.bvlabs.lol)
 
 
+## 👥 Alguns usuários já cadastrados para se logar
+
+* garcom1@bvlabs.lol / 1234
+* garcom3@bvlabs.lol / 1234
+* mesa1@bvlabs.lol / 1234
+* mesa5@bvlabs.lol / 1234
+* mesa9@bvlabs.lol / 1234
+
+
 ## 🛠️ Instalação via Docker
 
 ###### Pré-requisito mínimo
