@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lol.bvlabs.yessir.domain.usuario.DadosAtualizacaoUsuario;
-import lol.bvlabs.yessir.domain.usuario.DadosCadastroUsuario;
-import lol.bvlabs.yessir.domain.usuario.DadosListagemUsuario;
-import lol.bvlabs.yessir.domain.usuario.Usuario;
-import lol.bvlabs.yessir.domain.usuario.UsuarioRepository;
+import lol.bvlabs.yessir.module.mesa.model.DadosAtualizacaoUsuario;
+import lol.bvlabs.yessir.module.mesa.model.DadosCadastroUsuario;
+import lol.bvlabs.yessir.module.mesa.model.DadosListagemUsuario;
+import lol.bvlabs.yessir.module.mesa.model.Usuario;
+import lol.bvlabs.yessir.module.mesa.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/usuarios")

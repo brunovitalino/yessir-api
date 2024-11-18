@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.domain.usuario;
+package lol.bvlabs.yessir.module.mesa.model;
 
 import java.util.List;
 

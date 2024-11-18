@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.infra.springdoc;
+package lol.bvlabs.yessir.config.springdoc;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

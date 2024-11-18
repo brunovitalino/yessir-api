@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.infra.security;
+package lol.bvlabs.yessir.config.security;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-import lol.bvlabs.yessir.domain.usuario.Usuario;
+import lol.bvlabs.yessir.module.mesa.model.Usuario;
 
 @Service
 public class TokenService {

@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.controller;
+package lol.bvlabs.yessir.module.mesa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import lol.bvlabs.yessir.domain.usuario.DadosAutenticacao;
-import lol.bvlabs.yessir.domain.usuario.Usuario;
-import lol.bvlabs.yessir.infra.security.DadosJWTToken;
-import lol.bvlabs.yessir.infra.security.TokenService;
+import lol.bvlabs.yessir.config.security.DadosJWTToken;
+import lol.bvlabs.yessir.config.security.TokenService;
+import lol.bvlabs.yessir.module.mesa.model.DadosAutenticacao;
+import lol.bvlabs.yessir.module.mesa.model.Usuario;
 
 @RestController
 @RequestMapping("/auth/login")

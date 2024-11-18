@@ -1,4 +1,4 @@
-package lol.bvlabs.yessir.infra.security;
+package lol.bvlabs.yessir.config.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
