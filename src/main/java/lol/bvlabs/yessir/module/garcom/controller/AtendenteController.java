@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lol.bvlabs.yessir.module.garcom.domain.atendente.Atendente;
 import lol.bvlabs.yessir.module.garcom.domain.atendente.AtendenteRepository;
 import lol.bvlabs.yessir.module.garcom.domain.atendente.DadosAtualizacaoAtendente;
@@ -53,7 +54,7 @@ public class AtendenteController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody DadosCadastroAtendente dadosCadastroAtendente) {
+	public void post(@RequestBody @Valid DadosCadastroAtendente dadosCadastroAtendente) {
 		atendenteRepository.save(new Atendente(dadosCadastroAtendente));
 	}
 

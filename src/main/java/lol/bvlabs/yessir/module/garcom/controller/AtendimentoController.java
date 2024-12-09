@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.Atendimento;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoRepository;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.DadosAtualizacaoAtendimento;
@@ -74,7 +75,7 @@ public class AtendimentoController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<DadosListagemAtendimento> post(@RequestBody DadosCadastroAtendimento dadosCadastroAtendimento, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<DadosListagemAtendimento> post(@RequestBody @Valid DadosCadastroAtendimento dadosCadastroAtendimento, UriComponentsBuilder uriBuilder) {
 		if (dadosCadastroAtendimento == null || dadosCadastroAtendimento.mesa() == null || dadosCadastroAtendimento.mesa().id() == null) {
 			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Id de Mesa inválido.")).build();
 		}

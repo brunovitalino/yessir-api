@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lol.bvlabs.yessir.module.garcom.domain.mesa.DadosAtualizacaoMesa;
 import lol.bvlabs.yessir.module.garcom.domain.mesa.DadosCadastroMesa;
 import lol.bvlabs.yessir.module.garcom.domain.mesa.DadosListagemMesa;
@@ -53,7 +54,7 @@ public class MesaController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody DadosCadastroMesa dadosCadastroMesa) {
+	public void post(@RequestBody @Valid DadosCadastroMesa dadosCadastroMesa) {
 		mesaRepository.save(new Mesa(dadosCadastroMesa));
 	}
 

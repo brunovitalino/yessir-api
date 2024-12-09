@@ -1,6 +1,8 @@
 package lol.bvlabs.yessir.module.garcom.domain.atendente;
 
+import jakarta.validation.constraints.NotBlank;
+
 public record DadosCadastroAtendente(
-		Long id,
+		@NotBlank
 		String nome
 ) {}

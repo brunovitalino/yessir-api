@@ -1,11 +1,15 @@
 package lol.bvlabs.yessir.module.garcom.domain.pedido;
 
-import lol.bvlabs.yessir.module.garcom.domain.atendimento.DadosCadastroAtendimento;
-import lol.bvlabs.yessir.module.garcom.domain.cardapio.DadosCadastroCardapio;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import lol.bvlabs.yessir.module.garcom.domain.atendimento.DadosListagemAtendimento;
+import lol.bvlabs.yessir.module.garcom.domain.cardapio.DadosListagemCardapio;
 
 public record DadosCadastroPedido(
-		Long id,
-		DadosCadastroAtendimento atendimento,
-		DadosCadastroCardapio cardapio,
+		@NotNull @Valid
+		DadosListagemAtendimento atendimento,
+		@NotNull @Valid
+		DadosListagemCardapio cardapio,
+		@NotNull
 		Integer quantidade
 ) {}

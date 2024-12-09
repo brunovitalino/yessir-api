@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.Cardapio;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.CardapioRepository;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.DadosAtualizacaoCardapio;
@@ -48,7 +49,7 @@ public class CardapioController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody DadosCadastroCardapio dadosCadastroCardapio) {
+	public void post(@RequestBody @Valid DadosCadastroCardapio dadosCadastroCardapio) {
 		cardapioRepository.save(new Cardapio(dadosCadastroCardapio));
 	}
 

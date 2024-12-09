@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoRepository;
 import lol.bvlabs.yessir.module.garcom.domain.atendimento.AtendimentoStatusEnum;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.CardapioRepository;
@@ -72,7 +73,7 @@ public class PedidoController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<DadosListagemPedido> post(@RequestBody DadosCadastroPedido dadosCadastroPedido, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<DadosListagemPedido> post(@RequestBody @Valid DadosCadastroPedido dadosCadastroPedido, UriComponentsBuilder uriBuilder) {
 		if (dadosCadastroPedido == null) {
 			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Sem informações de Pedido.")).build();
 		}

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lol.bvlabs.yessir.module.mesa.model.DadosAtualizacaoUsuario;
 import lol.bvlabs.yessir.module.mesa.model.DadosCadastroUsuario;
 import lol.bvlabs.yessir.module.mesa.model.DadosListagemUsuario;
@@ -42,7 +43,7 @@ public class UsuarioController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody DadosCadastroUsuario dadosCadastroUsuario) {
+	public void post(@RequestBody @Valid DadosCadastroUsuario dadosCadastroUsuario) {
 		usuarioRepository.save(new Usuario(dadosCadastroUsuario));
 	}
 

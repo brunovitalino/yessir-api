@@ -1,6 +1,9 @@
 package lol.bvlabs.yessir.module.garcom.domain.mesa;
 
+import jakarta.validation.constraints.NotNull;
+
 public record DadosListagemMesa(
+		@NotNull
 		Long id,
 		String nome
 ) {

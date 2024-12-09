@@ -2,10 +2,12 @@ package lol.bvlabs.yessir.module.garcom.domain.cardapio;
 
 import java.math.BigDecimal;
 
+import jakarta.validation.constraints.NotNull;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.icone.DadosListagemCardapioTipo;
 import lol.bvlabs.yessir.module.garcom.domain.cardapio.tipo.DadosListagemCardapioIcone;
 
 public record DadosListagemCardapio(
+		@NotNull
 		Long id,
 		String nome,
 		BigDecimal preco,

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lol.bvlabs.yessir.module.garcom.domain.estabelecimento.DadosAtualizacaoEstabelecimento;
 import lol.bvlabs.yessir.module.garcom.domain.estabelecimento.DadosCadastroEstabelecimento;
 import lol.bvlabs.yessir.module.garcom.domain.estabelecimento.DadosListagemEstabelecimento;
@@ -42,7 +43,7 @@ public class EstabelecimentoController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody DadosCadastroEstabelecimento dadosCadastroEstabelecimento) {
+	public void post(@RequestBody @Valid DadosCadastroEstabelecimento dadosCadastroEstabelecimento) {
 		estabelecimentoRepository.save(new Estabelecimento(dadosCadastroEstabelecimento));
 	}
 

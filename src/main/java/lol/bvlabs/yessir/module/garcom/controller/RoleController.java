@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lol.bvlabs.yessir.module.garcom.domain.role.DadosAtualizacaoRole;
 import lol.bvlabs.yessir.module.garcom.domain.role.DadosCadastroRole;
 import lol.bvlabs.yessir.module.garcom.domain.role.DadosListagemRole;
@@ -42,7 +43,7 @@ public class RoleController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody DadosCadastroRole dadosCadastrorRole) {
+	public void post(@RequestBody @Valid DadosCadastroRole dadosCadastrorRole) {
 		roleRepository.save(new Role(dadosCadastrorRole));
 	}
 
