@@ -1,5 +1,7 @@
 package lol.bvlabs.yessir.module.garcom.controller;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -43,21 +46,26 @@ public class EstabelecimentoController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody @Valid DadosCadastroEstabelecimento dadosCadastroEstabelecimento) {
-		estabelecimentoRepository.save(new Estabelecimento(dadosCadastroEstabelecimento));
+	public ResponseEntity<DadosListagemEstabelecimento> post(@RequestBody @Valid DadosCadastroEstabelecimento dadosCadastroEstabelecimento, UriComponentsBuilder uriBuilder) {
+		Estabelecimento estabelecimento = estabelecimentoRepository.save(new Estabelecimento(dadosCadastroEstabelecimento));
+		DadosListagemEstabelecimento dadosListagemEstabelecimento = new DadosListagemEstabelecimento(estabelecimento);
+		URI uri = uriBuilder.path("/estabelecimentos/{id}").buildAndExpand(dadosListagemEstabelecimento.id()).toUri();
+		return ResponseEntity.created(uri).body(dadosListagemEstabelecimento);
 	}
 
 	@PutMapping
 	@Transactional
-	public void put(@RequestBody DadosAtualizacaoEstabelecimento dadosAtualizacaoEstabelecimento) {
+	public ResponseEntity<DadosListagemEstabelecimento> put(@RequestBody DadosAtualizacaoEstabelecimento dadosAtualizacaoEstabelecimento) {
 		var estabelecimento = estabelecimentoRepository.getReferenceById(dadosAtualizacaoEstabelecimento.id());
 		estabelecimento.atualizarInformacoes(dadosAtualizacaoEstabelecimento);
+		return ResponseEntity.ok(new DadosListagemEstabelecimento(estabelecimento));
 	}
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void delete(@PathVariable Long id) {
+	public ResponseEntity<?> delete(@PathVariable Long id) {
 		var estabelecimento = estabelecimentoRepository.getReferenceById(id);
 		estabelecimento.excluir();
+		return ResponseEntity.noContent().build();
 	}
 }

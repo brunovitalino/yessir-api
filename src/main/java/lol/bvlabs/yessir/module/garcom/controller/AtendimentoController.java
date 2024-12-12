@@ -107,8 +107,9 @@ public class AtendimentoController {
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void delete(@PathVariable Long id) {
+	public ResponseEntity<?> delete(@PathVariable Long id) {
 		var atendimento = atendimentoRepository.getReferenceById(id);
 		atendimento.excluir();
+		return ResponseEntity.noContent().build();
 	}
 }

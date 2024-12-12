@@ -133,6 +133,6 @@ public class PedidoController {
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		var pedido = pedidoRepository.getReferenceById(id);
 		pedido.excluir();
-		return ResponseEntity.ok().build();
+		return ResponseEntity.noContent().build();
 	}
 }

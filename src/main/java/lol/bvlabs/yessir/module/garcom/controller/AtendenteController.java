@@ -1,5 +1,6 @@
 package lol.bvlabs.yessir.module.garcom.controller;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -54,21 +56,26 @@ public class AtendenteController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody @Valid DadosCadastroAtendente dadosCadastroAtendente) {
-		atendenteRepository.save(new Atendente(dadosCadastroAtendente));
+	public ResponseEntity<DadosListagemAtendente> post(@RequestBody @Valid DadosCadastroAtendente dadosCadastroAtendente, UriComponentsBuilder uriBuilder) {
+		Atendente atendente = atendenteRepository.save(new Atendente(dadosCadastroAtendente));
+		DadosListagemAtendente dadosListagemAtendente = new DadosListagemAtendente(atendente);
+		URI uri = uriBuilder.path("/atendentes/{id}").buildAndExpand(dadosListagemAtendente.id()).toUri();
+		return ResponseEntity.created(uri).body(dadosListagemAtendente);
 	}
 
 	@PutMapping
 	@Transactional
-	public void put(@RequestBody DadosAtualizacaoAtendente dadosAtualizacaoAtendente) {
-		var mesa = atendenteRepository.getReferenceById(dadosAtualizacaoAtendente.id());
-		mesa.atualizarInformacoes(dadosAtualizacaoAtendente);
+	public ResponseEntity<DadosListagemAtendente> put(@RequestBody DadosAtualizacaoAtendente dadosAtualizacaoAtendente) {
+		var atendente = atendenteRepository.getReferenceById(dadosAtualizacaoAtendente.id());
+		atendente.atualizarInformacoes(dadosAtualizacaoAtendente);
+		return ResponseEntity.ok(new DadosListagemAtendente(atendente));
 	}
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void delete(@PathVariable Long id) {
+	public ResponseEntity<?> delete(@PathVariable Long id) {
 		var mesa = atendenteRepository.getReferenceById(id);
 		mesa.excluir();
+		return ResponseEntity.noContent().build();
 	}
 }

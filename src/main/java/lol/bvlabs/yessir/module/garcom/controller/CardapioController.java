@@ -1,5 +1,7 @@
 package lol.bvlabs.yessir.module.garcom.controller;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -49,21 +52,26 @@ public class CardapioController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody @Valid DadosCadastroCardapio dadosCadastroCardapio) {
-		cardapioRepository.save(new Cardapio(dadosCadastroCardapio));
+	public ResponseEntity<DadosListagemCardapio> post(@RequestBody @Valid DadosCadastroCardapio dadosCadastroCardapio, UriComponentsBuilder uriBuilder) {
+		Cardapio cardapio = cardapioRepository.save(new Cardapio(dadosCadastroCardapio));
+		DadosListagemCardapio dadosListagemCardapio = new DadosListagemCardapio(cardapio);
+		URI uri = uriBuilder.path("/cardapios/{id}").buildAndExpand(dadosListagemCardapio.id()).toUri();
+		return ResponseEntity.created(uri).body(dadosListagemCardapio);
 	}
 
 	@PutMapping
 	@Transactional
-	public void put(@RequestBody DadosAtualizacaoCardapio dadosAtualizacaoCardapio) {
+	public ResponseEntity<DadosListagemCardapio> put(@RequestBody DadosAtualizacaoCardapio dadosAtualizacaoCardapio) {
 		var cardapio = cardapioRepository.getReferenceById(dadosAtualizacaoCardapio.id());
 		cardapio.atualizarInformacoes(dadosAtualizacaoCardapio);
+		return ResponseEntity.ok(new DadosListagemCardapio(cardapio));
 	}
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void delete(@PathVariable Long id) {
+	public ResponseEntity<?> delete(@PathVariable Long id) {
 		var cardapio = cardapioRepository.getReferenceById(id);
 		cardapio.excluir();
+		return ResponseEntity.noContent().build();
 	}
 }

@@ -1,5 +1,6 @@
 package lol.bvlabs.yessir.module.garcom.controller;
 
+import java.net.URI;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -54,21 +56,26 @@ public class MesaController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody @Valid DadosCadastroMesa dadosCadastroMesa) {
-		mesaRepository.save(new Mesa(dadosCadastroMesa));
+	public ResponseEntity<DadosListagemMesa> post(@RequestBody @Valid DadosCadastroMesa dadosCadastroMesa, UriComponentsBuilder uriBuilder) {
+		Mesa mesa = mesaRepository.save(new Mesa(dadosCadastroMesa));
+		DadosListagemMesa dadosListagemMesa = new DadosListagemMesa(mesa);
+		URI uri = uriBuilder.path("/mesas/{id}").buildAndExpand(dadosListagemMesa.id()).toUri();
+		return ResponseEntity.created(uri).body(dadosListagemMesa);
 	}
 
 	@PutMapping
 	@Transactional
-	public void put(@RequestBody DadosAtualizacaoMesa dadosAtualizacaoMesa) {
+	public ResponseEntity<DadosListagemMesa> put(@RequestBody DadosAtualizacaoMesa dadosAtualizacaoMesa) {
 		var mesa = mesaRepository.getReferenceById(dadosAtualizacaoMesa.id());
 		mesa.atualizarInformacoes(dadosAtualizacaoMesa);
+		return ResponseEntity.ok(new DadosListagemMesa(mesa));
 	}
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void delete(@PathVariable Long id) {
+	public ResponseEntity<?> delete(@PathVariable Long id) {
 		var mesa = mesaRepository.getReferenceById(id);
 		mesa.excluir();
+		return ResponseEntity.noContent().build();
 	}
 }

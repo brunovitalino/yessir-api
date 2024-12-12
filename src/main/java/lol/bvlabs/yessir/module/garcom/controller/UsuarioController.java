@@ -1,5 +1,7 @@
 package lol.bvlabs.yessir.module.garcom.controller;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -43,21 +46,26 @@ public class UsuarioController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody @Valid DadosCadastroUsuario dadosCadastroUsuario) {
-		usuarioRepository.save(new Usuario(dadosCadastroUsuario));
+	public ResponseEntity<DadosListagemUsuario> post(@RequestBody @Valid DadosCadastroUsuario dadosCadastroUsuario, UriComponentsBuilder uriBuilder) {
+		Usuario usuario = usuarioRepository.save(new Usuario(dadosCadastroUsuario));
+		DadosListagemUsuario dadosListagemUsuario = new DadosListagemUsuario(usuario);
+		URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(dadosListagemUsuario.id()).toUri();
+		return ResponseEntity.created(uri).body(dadosListagemUsuario);
 	}
 
 	@PutMapping
 	@Transactional
-	public void put(@RequestBody DadosAtualizacaoUsuario dadosAtualizacaoUsuario) {
+	public ResponseEntity<DadosListagemUsuario> put(@RequestBody DadosAtualizacaoUsuario dadosAtualizacaoUsuario) {
 		var usuario = usuarioRepository.getReferenceById(dadosAtualizacaoUsuario.id());
 		usuario.atualizarInformacoes(dadosAtualizacaoUsuario);
+		return ResponseEntity.ok(new DadosListagemUsuario(usuario));
 	}
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void delete(@PathVariable Long id) {
+	public ResponseEntity<?> delete(@PathVariable Long id) {
 		var usuario = usuarioRepository.getReferenceById(id);
 		usuario.excluir();
+		return ResponseEntity.noContent().build();
 	}
 }

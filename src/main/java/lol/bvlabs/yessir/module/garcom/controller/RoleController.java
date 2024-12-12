@@ -1,5 +1,7 @@
 package lol.bvlabs.yessir.module.garcom.controller;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -43,21 +46,26 @@ public class RoleController {
 
 	@PostMapping
 	@Transactional
-	public void post(@RequestBody @Valid DadosCadastroRole dadosCadastrorRole) {
-		roleRepository.save(new Role(dadosCadastrorRole));
+	public ResponseEntity<DadosListagemRole> post(@RequestBody @Valid DadosCadastroRole dadosCadastrorRole, UriComponentsBuilder uriBuilder) {
+		Role role = roleRepository.save(new Role(dadosCadastrorRole));
+		DadosListagemRole dadosListagemRole = new DadosListagemRole(role);
+		URI uri = uriBuilder.path("/roles/{id}").buildAndExpand(dadosListagemRole.id()).toUri();
+		return ResponseEntity.created(uri).body(dadosListagemRole);
 	}
 
 	@PutMapping
 	@Transactional
-	public void put(@RequestBody DadosAtualizacaoRole dadosAtualizacaoRole) {
+	public ResponseEntity<DadosListagemRole> put(@RequestBody DadosAtualizacaoRole dadosAtualizacaoRole) {
 		var role = roleRepository.getReferenceById(dadosAtualizacaoRole.id());
 		role.atualizarInformacoes(dadosAtualizacaoRole);
+		return ResponseEntity.ok(new DadosListagemRole(role));
 	}
 
 	@DeleteMapping("/{id}")
 	@Transactional
-	public void delete(@PathVariable Long id) {
+	public ResponseEntity<?> delete(@PathVariable Long id) {
 		var role = roleRepository.getReferenceById(id);
 		role.excluir();
+		return ResponseEntity.noContent().build();
 	}
 }
