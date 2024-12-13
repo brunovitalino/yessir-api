@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import jakarta.persistence.EntityNotFoundException;
+import lol.bvlabs.yessir.domain.ValidacaoException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -38,6 +39,11 @@ public class GlobalExceptionHandler {
 	public ResponseEntity<?> MethodArgumentNotValidHandler(MethodArgumentNotValidException exeption) {
 		var erros = exeption.getFieldErrors();
 		return ResponseEntity.badRequest().body(erros.stream().map(DadosErroValidacao::new).toList());
+	}
+	
+	@ExceptionHandler(ValidacaoException.class)
+	public ResponseEntity<?> MethodArgumentNotValidHandler(ValidacaoException exeption) {
+		return ResponseEntity.badRequest().body(exeption.getMessage());
 	}
 	
 	private record DadosErroValidacao(String field, String message) {

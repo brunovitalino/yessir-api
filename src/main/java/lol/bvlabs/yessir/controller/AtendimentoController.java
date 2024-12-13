@@ -24,12 +24,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import lol.bvlabs.yessir.domain.ValidacaoException;
 import lol.bvlabs.yessir.domain.atendimento.Atendimento;
 import lol.bvlabs.yessir.domain.atendimento.AtendimentoRepository;
+import lol.bvlabs.yessir.domain.atendimento.AtendimentoService;
+import lol.bvlabs.yessir.domain.atendimento.DadosAtendimento;
 import lol.bvlabs.yessir.domain.atendimento.DadosAtualizacaoAtendimento;
 import lol.bvlabs.yessir.domain.atendimento.DadosCadastroAtendimento;
 import lol.bvlabs.yessir.domain.atendimento.DadosListagemAtendimento;
 import lol.bvlabs.yessir.domain.mesa.DadosListagemMesa;
+import lol.bvlabs.yessir.domain.mesa.DadosMesa;
 import lol.bvlabs.yessir.domain.mesa.MesaRepository;
 
 @RestController
@@ -42,6 +46,9 @@ public class AtendimentoController {
 	
 	@Autowired
 	MesaRepository mesaRepository;
+	
+	@Autowired
+	AtendimentoService atendimentoService;
 
 	@GetMapping
 	public ResponseEntity<Page<DadosListagemAtendimento>> getAll(@PageableDefault(size = 20) Pageable paginacao,
@@ -55,22 +62,18 @@ public class AtendimentoController {
 	@GetMapping("/{id}")
 	public ResponseEntity<DadosListagemAtendimento> getAllByEstabelecimentoId(@PageableDefault(size = 10) Pageable paginacao,
 			@PathVariable Long id) {
-		Optional<Atendimento> atendimento = atendimentoRepository.findById(id);
-		if (atendimento.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(new DadosListagemAtendimento(atendimento.get()));
+		var atendimento = atendimentoRepository.getReferenceById(id);
+		return ResponseEntity.ok(new DadosListagemAtendimento(atendimento));
 	}
 
-	@GetMapping("/mesa/{id}")
+	@GetMapping("/mesa/{mesaId}")
 	public ResponseEntity<DadosListagemAtendimento> getOneByMesaId(@PageableDefault(size = 10) Pageable paginacao,
-			@PathVariable Long id) {
-		var atendimento = atendimentoRepository.findOneAtivoByMesaId(id);
-		if (atendimento.isEmpty()) {
-			return ResponseEntity.noContent().build();
-		}
+			@PathVariable Long mesaId) {
+		var dadosMesa = new DadosMesa(mesaId, null);
+		var dadosAtendimento = new DadosAtendimento(null, dadosMesa, null, null);
+		var atendimento = atendimentoService.getOneByMesa(dadosAtendimento);
 		//Atendimento atendimentoMaisRecente = atendimento.stream().max((a, p) -> a.getId().compareTo(p.getId())).get();
-		return ResponseEntity.ok(new DadosListagemAtendimento(atendimento.get()));
+		return ResponseEntity.ok(new DadosListagemAtendimento(atendimento));
 	}
 
 	@PostMapping

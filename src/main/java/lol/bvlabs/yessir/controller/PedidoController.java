@@ -88,6 +88,7 @@ public class PedidoController {
 		}
 
 		var atendimento = atendimentoRepository.findAtivoById(dadosCadastroPedido.atendimento().id());
+		// ?? substituir por => var atendimento = atendimentoRepository.getByAtivoAndId(true, dadosCadastroPedido.atendimento().id());
 		if (atendimento.isEmpty()) {
 			return ResponseEntity.of(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, "Atendimento não existe.")).build();
 		}

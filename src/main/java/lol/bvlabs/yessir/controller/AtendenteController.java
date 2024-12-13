@@ -1,7 +1,6 @@
 package lol.bvlabs.yessir.controller;
 
 import java.net.URI;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,11 +46,6 @@ public class AtendenteController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<DadosListagemAtendente> getOneById(@PathVariable Long id) {
-		/*Optional<Atendente> atendente = atendenteRepository.findById(id);
-		if (atendente.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(new DadosListagemAtendente(atendente.get()));*/
 		var atendente = atendenteRepository.getReferenceById(id);
 		return ResponseEntity.ok(new DadosListagemAtendente(atendente));
 	}
@@ -59,10 +53,9 @@ public class AtendenteController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<DadosListagemAtendente> post(@RequestBody @Valid DadosCadastroAtendente dadosCadastroAtendente, UriComponentsBuilder uriBuilder) {
-		Atendente atendente = atendenteRepository.save(new Atendente(dadosCadastroAtendente));
-		DadosListagemAtendente dadosListagemAtendente = new DadosListagemAtendente(atendente);
-		URI uri = uriBuilder.path("/atendentes/{id}").buildAndExpand(dadosListagemAtendente.id()).toUri();
-		return ResponseEntity.created(uri).body(dadosListagemAtendente);
+		var atendente = atendenteRepository.save(new Atendente(dadosCadastroAtendente));
+		URI uri = uriBuilder.path("/atendentes/{id}").buildAndExpand(atendente.getId()).toUri();
+		return ResponseEntity.created(uri).body(new DadosListagemAtendente(atendente));
 	}
 
 	@PutMapping

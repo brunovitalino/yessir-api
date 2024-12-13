@@ -38,6 +38,6 @@ public interface AtendimentoRepository extends JpaRepository<Atendimento, Long> 
 			WHERE a.ativo = true
 			AND a.id = :id
 			""")
-	Optional<Atendimento> findAtivoById(Long id);
+	Optional<Atendimento> findAtivoById(Long id); // ?? Atendimento getByAtivoAndId(Boolean ativo, Long id);
 
 }
