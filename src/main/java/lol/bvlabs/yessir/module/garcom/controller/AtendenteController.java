@@ -47,11 +47,13 @@ public class AtendenteController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<DadosListagemAtendente> getOneById(@PathVariable Long id) {
-		Optional<Atendente> atendente = atendenteRepository.findById(id);
+		/*Optional<Atendente> atendente = atendenteRepository.findById(id);
 		if (atendente.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(new DadosListagemAtendente(atendente.get()));
+		return ResponseEntity.ok(new DadosListagemAtendente(atendente.get()));*/
+		var atendente = atendenteRepository.getReferenceById(id);
+		return ResponseEntity.ok(new DadosListagemAtendente(atendente));
 	}
 
 	@PostMapping
