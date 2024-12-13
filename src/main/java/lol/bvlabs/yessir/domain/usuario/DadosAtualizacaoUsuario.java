@@ -2,7 +2,7 @@ package lol.bvlabs.yessir.domain.usuario;
 
 import java.util.List;
 
-import lol.bvlabs.yessir.module.garcom.domain.role.Role;
+import lol.bvlabs.yessir.domain.role.Role;
 
 public record DadosAtualizacaoUsuario(
 	Long id,
