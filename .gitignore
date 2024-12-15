@@ -176,4 +176,5 @@ buildNumber.properties
 /.apt_generated_tests/
 
 # YesSir database via docker
-yessir-database/postgres
+yessir-database/postgres**
+yessir-database-multiple

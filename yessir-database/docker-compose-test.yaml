@@ -17,20 +17,3 @@ services:
     ports:
       - 5437:5432
     restart: unless-stopped
-
-  yessir-postgres-test:
-    container_name: yessir-postgres-test
-    image: bitnami/postgresql:16.3.0-debian-12-r14
-    environment:
-      POSTGRES_DB: 'yessir_test'
-      POSTGRES_USER: 'yessir'
-      POSTGRES_PASSWORD: '1234'
-      POSTGRES_RANDOM_ROOT_PASSWORD: 'yes'
-      POSTGRES_ROOT_HOST: '%'
-    healthcheck:
-      test: pg_isready
-    volumes:
-      - './postgres_test:/bitnami/postgresql'
-    ports:
-      - 5433:5432
-    restart: unless-stopped
