@@ -10,6 +10,7 @@ services:
       POSTGRES_PASSWORD: '1234'
       POSTGRES_RANDOM_ROOT_PASSWORD: 'yes'
       POSTGRES_ROOT_HOST: '%'
+      POSTGRESQL_FORCE_INITDB: 'yes'
     healthcheck:
       test: pg_isready
     volumes:
@@ -30,7 +31,7 @@ services:
     healthcheck:
       test: pg_isready
     volumes:
-      - './postgres_test:/bitnami/postgresql'
+      - './postgres_test/data:/bitnami/postgresql/data'
     ports:
       - 5433:5432
     restart: unless-stopped

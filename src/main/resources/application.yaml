@@ -23,3 +23,35 @@ api:
   security:
     token:
       secret: ${JWT_SECRET:12345678}
+
+#ACTUATOR
+management:
+  tracing:
+    sampling:
+      # All traces should be sent to latency analysis tool
+      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics,prometheus"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    enable:
+      jvm: true
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      sla:
+        http:
+          server:
+            requests: "50ms,100ms,200ms,300ms"
+      # For Exemplars to work we need histogram buckets
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
+    tags:
+      application: "yessir-api"
