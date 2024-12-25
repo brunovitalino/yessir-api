@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://${DATABASE_HOST}:5432/yessir
+    url: jdbc:postgresql://${DATABASE_HOST:yessir-postgres}:${DATABASE_PORT:5432}/yessir
     username: yessir
     password: 1234
   jpa:
