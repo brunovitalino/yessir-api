@@ -1,4 +1,4 @@
-/*
+
 INSERT INTO mesas (nome,ativo,created,updated) VALUES
 	 ('Mesa 1',true,now(),now()),
 	 ('Mesa 2',true,now(),now()),
@@ -61,7 +61,7 @@ INSERT INTO usuarios_roles (usuario_id,roles_id) VALUES
 	 (18,4),
 	 (19,4),
 	 (20,4);
-
+/*
 INSERT INTO estabelecimentos (nome,ativo) VALUES
 	 ('Côco Bambu Iguatemi',true),
 	 ('Côco Bambu Aldeota',true),

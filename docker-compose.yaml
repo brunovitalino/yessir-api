@@ -15,8 +15,6 @@ services:
       POSTGRES_PASSWORD: '1234'
       POSTGRES_RANDOM_ROOT_PASSWORD: 'yes'
       POSTGRES_ROOT_HOST: '%'
-    volumes:
-      - './yessir-database/postgres:/bitnami/postgresql'
     networks:
       - database
     expose:
@@ -32,7 +30,7 @@ services:
     environment:
       DATABASE_HOST: 'yessir-postgres'
     ports:
-      - 8080:80
+      - 80:80
     networks:
       - database
       - api
