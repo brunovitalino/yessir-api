@@ -24,6 +24,12 @@ api:
     token:
       secret: ${JWT_SECRET:12345678}
 
+#LOGs
+logging:
+  level:
+    root: INFO
+    org:
+      springframework: INFO
 #ACTUATOR
 management:
   tracing:
@@ -33,11 +39,13 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health,info,metrics,prometheus"
+        include: "health,info,metrics,prometheus,loggers"
   endpoint:
     health:
       show-details: always
     prometheus:
+      enabled: true
+    loggers:
       enabled: true
   metrics:
     enable:
