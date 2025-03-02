@@ -17,6 +17,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
             ).allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "TRACE", "CONNECT")
             .allowedHeaders("*")
             //.allowCredentials(true)
+            //.allowedOriginPatterns("https://yessir-api-alb-*.us-east-1.elb.amazonaws.com")
             .maxAge(Long.valueOf(3600));
     }
 

@@ -4,10 +4,13 @@ networks:
   database:
     internal: true
   api:
+    internal: true
+  public:
+  monit:
 
 services:
-  yessir-postgres:
-    container_name: yessir-postgres
+  yessir-db:
+    container_name: yessir-db
     image: bitnami/postgresql:16.3.0-debian-12-r14
     environment:
       POSTGRES_DB: 'yessir'
@@ -15,6 +18,8 @@ services:
       POSTGRES_PASSWORD: '1234'
       POSTGRES_RANDOM_ROOT_PASSWORD: 'yes'
       POSTGRES_ROOT_HOST: '%'
+    #volumes:
+    #  - './database/postgresql1:/bitnami/postgresql'
     networks:
       - database
     expose:
@@ -24,16 +29,25 @@ services:
   yessir-api:
     container_name: yessir-api
     build:
-      context: .
+      context: '.'
       dockerfile: Dockerfile
     image: docker.io/brunovitalino/yessir-api-image:latest
     environment:
-      DATABASE_HOST: 'yessir-postgres'
+      DATABASE_HOST: 'yessir-db'
     ports:
-      - 80:80
+      - 3000:8080
     networks:
       - database
-      - api
+      - public
     restart: unless-stopped
     depends_on:
-      - yessir-postgres
+      - yessir-db
+    healthcheck:
+      test: "curl -sS http://yessir-api:80/actuator/health"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    ulimits:
+      nofile:
+        soft: 1048576
+        hard: 1048576

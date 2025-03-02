@@ -9,7 +9,7 @@ FROM eclipse-temurin:21-jre
 WORKDIR /app
 ARG JAR_FILE=/buildfiles/target/*jar
 COPY --from=build ${JAR_FILE} yessir-api.jar
-EXPOSE 80
+EXPOSE 8080
 ENTRYPOINT ["java", "-Dspring.profiles.active=prod", "-jar", "yessir-api.jar"]
 
 # mvn clean package -Dmaven.test.skip
