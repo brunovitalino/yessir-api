@@ -1,4 +1,4 @@
-/*
+
 INSERT INTO mesas (nome,ativo,created,updated) VALUES
 	 ('Mesa 1',true,now(),now()),
 	 ('Mesa 2',true,now(),now()),
@@ -70,10 +70,12 @@ INSERT INTO estabelecimentos (nome,ativo) VALUES
 	 ('Chico do Caranguejo',true);
 
 INSERT INTO cardapio_tipo (nome,ativo,created,updated) VALUES
+	 ('COMIDA',true,now(),now()),
 	 ('APERITIVO',true,now(),now()),
 	 ('BEBIDA',true,now(),now());
 
 INSERT INTO cardapio_icone (nome,ativo,created,updated) VALUES
+	 ('local_dining',true,now(),now()),
 	 ('egg',true,now(),now()),
 	 ('wine_bar',true,now(),now()),
 	 ('sports_bar',true,now(),now()),
@@ -93,7 +95,7 @@ INSERT INTO cardapios (estabelecimento_id,nome,ativo,preco,cardapio_tipo_id,card
 INSERT INTO atendentes (nome,ativo,created,updated) VALUES
 	 ('Roberto',true,now(),now()),
 	 ('Paulo',true,now(),now());
-/*
+
 
 /*INSERT INTO atendimentos (mesa_id,atendente_id,ativo,created,updated,status) VALUES
 	 (2,1,true,now(),now(),'EM_ATENDIMENTO'),

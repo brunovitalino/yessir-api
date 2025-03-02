@@ -13,8 +13,8 @@ services:
       POSTGRESQL_FORCE_INITDB: 'yes'
     healthcheck:
       test: pg_isready
-    volumes:
-      - './postgres2:/bitnami/postgresql'
+    #volumes:
+    #  - './postgres2:/bitnami/postgresql'
     ports:
       - 5437:5432
     restart: unless-stopped
