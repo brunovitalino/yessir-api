@@ -1,23 +1,37 @@
-name: CI/CD Pipeline for yessir-api
+name: CI/CD Pipeline Homologacao
 
 on:
   workflow_dispatch:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
 
 env:
   AWS_REGION: us-east-1
   ECS_CLUSTER: yessir-cluster
-  ECS_SERVICE: yessir-api-task
+  ECS_SERVICE: yessir-api-service
   CONTAINER_NAME: yessir-api
+  is_manual: ${{ github.event_name == 'workflow_dispatch' && 'true' || 'false' }}
 
 jobs:
   build-and-deploy:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop'
-
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.ref == 'develop') }}
     runs-on: ubuntu-latest
+    environment: YesSir Environment      
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Determine if manual or PR merge
+        id: manual-or-pr
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "Running pipeline manually"
+          else
+            echo "Running pipeline on PR merge"
+          fi
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
