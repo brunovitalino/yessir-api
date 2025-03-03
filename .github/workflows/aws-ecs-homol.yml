@@ -16,7 +16,7 @@ env:
 
 jobs:
   build-and-deploy:
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && (github.event.pull_request.head.ref == 'release/*' || github.event.pull_request.head.ref == 'hotfix/*')) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main' && (startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix/'))) }}
     runs-on: ubuntu-latest
     environment: YesSir Environment      
 
