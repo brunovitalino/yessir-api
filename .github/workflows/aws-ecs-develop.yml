@@ -1,9 +1,7 @@
-name: CI/CD Pipeline Homologacao
+name: CI/CD Pipeline Desenvolvimento
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
 
 env:
   AWS_REGION: us-east-1
@@ -26,6 +24,17 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+
+      # CI
+      #- name: Get Latest Tag Version
+      #  id: get_tag_version
+      #  run: |
+      #    # Obter a última tag
+      #    TAG_VERSION=$(git describe --tags --abbrev=0)
+      #    echo "Última tag: $TAG_VERSION"
+      #    
+      #    # Definir como variável de ambiente
+      #    echo "SONAR_PROJECT_VERSION=$TAG_VERSION" >> $GITHUB_ENV
 
       - name: Install SonarQube Scanner
         run: |

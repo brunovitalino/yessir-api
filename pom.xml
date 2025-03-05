@@ -9,12 +9,24 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>lol.bvlabs</groupId>
-	<artifactId>yessir</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>YesSir</name>
+	<artifactId>yessir-api</artifactId>
+	<version>1.0.1</version>
+	<name>YesSir API</name>
 	<description>Uma API de solicitação de pedidos para estabelecimentos</description>
 	<properties>
 		<java.version>21</java.version>
+		<!-- SonarQube Properties -->
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.token>${SONAR_TOKEN}</sonar.token>
+		<sonar.organization>bv-labs</sonar.organization>
+		<sonar.projectKey>${project.artifactId}</sonar.projectKey>
+		<sonar.projectName>${project.name}</sonar.projectName>
+		<sonar.projectVersion>${project.version}</sonar.projectVersion> <!-- Use o valor da versão do Maven -->
+		<sonar.sources>src/main/java</sonar.sources> <!-- Diretório do código-fonte principal -->
+    	<sonar.tests>src/test/java</sonar.tests> <!-- Diretório dos testes -->
+		<sonar.java.binaries>target/classes</sonar.java.binaries> <!-- Diretório dos arquivos compilados -->
+		<sonar.java.source>21</sonar.java.source> <!-- Versão do Java -->
+		<sonar.java.target>21</sonar.java.target> <!-- Versão do Java -->
 	</properties>
 	<dependencyManagement>
 	    <dependencies>
@@ -104,14 +116,95 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+		    <groupId>org.jacoco</groupId>
+		    <artifactId>jacoco-maven-plugin</artifactId>
+		    <version>0.8.12</version>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+		  <plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+		  </plugin>
+		  <plugin>
+			<groupId>org.sonarsource.scanner.maven</groupId>
+			<artifactId>sonar-maven-plugin</artifactId>
+			<version>4.0.0.4121</version>
+			<!--configuration>
+			  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+			</configuration-->
+		  </plugin>
+		  <!-- Jacoco Maven Plugin para gerar o relatório de cobertura -->
+		  <plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.12</version>
+			<executions>
+			  <!-- Preparar o agente do JaCoCo para coletar a cobertura -->
+			  <execution>
+				<id>prepare-agent</id> <!-- ID único para esta execução -->
+				<goals>
+				  <goal>prepare-agent</goal>  <!-- Prepara o agente JaCoCo para a execução -->
+				</goals>
+				<configuration>
+				  <destFile>${project.build.directory}/jacoco.exec</destFile> <!-- Garantir o arquivo de cobertura -->
+				</configuration>
+			  </execution>
+			  <!-- Gerar o relatório de cobertura após a execução dos testes -->
+			  <execution>
+				<id>generate-report</id> <!-- ID único para esta execução -->
+            	<phase>prepare-package</phase> <!-- Gera o relatório após a fase de testes -->
+				<goals>
+				  <goal>report</goal> <!-- Gera o relatório de cobertura -->
+				</goals>
+			  </execution>
+			  <!-- Verificar se a cobertura de código atinge os critérios mínimos -->
+			  <execution>
+				<id>check-coverage</id> <!-- ID único para esta execução -->
+				<goals>
+				  <goal>check</goal> <!-- Verifica os limites de cobertura -->
+				</goals>
+				<configuration>
+				  <rules>
+					<rule>
+					<element>CLASS</element>
+					<limits>
+					  <limit>
+						<counter>LINE</counter>
+						<value>COVEREDRATIO</value>
+						<minimum>0.5</minimum> <!-- Define que a cobertura mínima por linha deve ser 80% -->
+					  </limit>
+					</limits>
+					</rule>
+				  </rules>
+				</configuration>
+			  </execution>
+			</executions>
+		  </plugin>
+		  <plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-compiler-plugin</artifactId>
+			  <configuration>
+			    <source>21</source>
+			    <target>21</target>
+			  </configuration>
+		  </plugin>
+		  <!-- Maven Surefire Plugin que roda testes customizado para integrar com JaCoCo -->
+		  <plugin>
+		      <groupId>org.apache.maven.plugins</groupId>
+		      <artifactId>maven-surefire-plugin</artifactId>
+		      <!--configuration>
+		        <argLine>
+		          -Xmx1024m -XX:MaxPermSize=512m -javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/0.8.12/jacoco-agent-0.8.12-runtime.jar=destfile=target/jacoco.exec
+		        </argLine>
+		        <forkCount>1C</forkCount> < Número de forks, 1C usa o número de núcleos >
+		        <reuseForks>false</reuseForks> < Impede a reutilização do fork >
+		      </configurion-->
+		  </plugin>
+		  
 		</plugins>
 	</build>
 
