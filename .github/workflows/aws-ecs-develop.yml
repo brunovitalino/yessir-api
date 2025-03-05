@@ -7,13 +7,13 @@ env:
   AWS_REGION: us-east-1
   ECS_CLUSTER: yessir-cluster
   ECS_SERVICE: yessir-api-service
-  CONTAINER_NAME: yessir-api
-  SONAR_PROJECT_VERSION: ${{ github.ref_name }}  # Exemplo: v1.0.0
+  CONTAINER_NAME: yessir-api-dev
+  SONAR_PROJECT_NAME: YesSir_API_Dev
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: YesSir Environment      
+    environment: YesSir Environment
 
     steps:
       - name: Checkout Code
@@ -26,51 +26,21 @@ jobs:
           distribution: 'temurin'
 
       # CI
-      #- name: Get Latest Tag Version
-      #  id: get_tag_version
-      #  run: |
-      #    # Obter a última tag
-      #    TAG_VERSION=$(git describe --tags --abbrev=0)
-      #    echo "Última tag: $TAG_VERSION"
-      #    
-      #    # Definir como variável de ambiente
-      #    echo "SONAR_PROJECT_VERSION=$TAG_VERSION" >> $GITHUB_ENV
-
-      - name: Install SonarQube Scanner
-        run: |
-          curl -sSLo sonar-scanner.zip https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.8.0.2856/sonar-scanner-cli-4.8.0.2856-linux.zip
-          unzip sonar-scanner.zip
-          export PATH=$PWD/sonar-scanner-4.8.0.2856-linux/bin:$PATH
-
-      - name: Run SonarQube Scanner
-        run: |
-          sonar-scanner \
-            -Dsonar.projectVersion=${{ env.SONAR_PROJECT_VERSION }} \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
-
-      # CD
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      - name: Login to Docker Hub
+      - name: Install SonarQube Scanner
         run: |
-          echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.0.2.4839-linux-x64.zip
+          unzip sonar-scanner.zip
+          echo "SONNAR_SCANNER=$PWD/sonar-scanner-7.0.2.4839-linux-x64/bin" >> $GITHUB_ENV
 
-      - name: Build and Push Docker Image
+      - name: Get Latest Tag Version
+        id: get_tag_version
         run: |
-          docker build -t brunovitalino/yessir-api-image:latest .
-          docker push brunovitalino/yessir-api-image:${{ env.VERSION }}
-          docker push brunovitalino/yessir-api-image:latest
+          # Obter a última tag
+          TAG_VERSION=$(git describe --tags --abbrev=0)
+          echo "Última tag: $TAG_VERSION"
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Update ECS Service
-        run: |
-          aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
+          # Definir como variável de ambiente
+          echo "SONAR_PROJECT_VERSION=$TAG_VERSION" >> $GITHUB_ENV

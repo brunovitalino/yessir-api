@@ -10,12 +10,13 @@ env:
   ECS_CLUSTER: yessir-cluster
   ECS_SERVICE: yessir-api-service
   CONTAINER_NAME: yessir-api
+  SONAR_PROJECT_NAME: YesSir_API
   SONAR_PROJECT_VERSION: ${{ github.ref_name }}  # Exemplo: v1.0.0
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: YesSir Environment      
+    environment: YesSir Environment
 
     steps:
       - name: Checkout Code
@@ -27,24 +28,33 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      - name: Install SonarQube Scanner
-        run: |
-          curl -sSLo sonar-scanner.zip https://github.com/SonarSource/sonar-scanner-cli/releases/download/4.8.0.2856/sonar-scanner-cli-4.8.0.2856-linux.zip
-          unzip sonar-scanner.zip
-          export PATH=$PWD/sonar-scanner-4.8.0.2856-linux/bin:$PATH
-
-      - name: Run SonarQube Scanner
-        run: |
-          sonar-scanner \
-            -Dsonar.projectVersion=${{ env.SONAR_PROJECT_VERSION }} \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
-
-      # CD
+      # CI
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
+      - name: Install SonarQube Scanner
+        run: |
+          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.0.2.4839-linux-x64.zip
+          unzip sonar-scanner.zip
+          echo "SONNAR_SCANNER=$PWD/sonar-scanner-7.0.2.4839-linux-x64/bin" >> $GITHUB_ENV
+
+      - name: Run SonarQube Scanner
+        run: |
+          export PATH=${{ env.SONNAR_SCANNER }}:$PATH
+          sonar-scanner \
+            -Dsonar.java.source=21 \
+            -Dsonar.java.target=21 \
+            -Dsonar.sources=src/main/java \
+            -Dsonar.tests=src/test/java \
+            -Dsonar.java.binaries=target/classes \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.token=${{ secrets.SONARQUBE_TOKEN }} \
+            -Dsonar.organization=bv-labs \
+            -Dsonar.projectName=${{ env.SONAR_PROJECT_NAME }} \
+            -Dsonar.projectKey=${{ env.CONTAINER_NAME }} \
+            -Dsonar.projectVersion=${{ env.SONAR_PROJECT_VERSION }}
+
+      # CD
       - name: Login to Docker Hub
         run: |
           echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
