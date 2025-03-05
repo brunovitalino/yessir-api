@@ -16,17 +16,17 @@
 	<properties>
 		<java.version>21</java.version>
 		<!-- SonarQube Properties -->
-		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.token>${SONAR_TOKEN}</sonar.token>
-		<sonar.organization>bv-labs</sonar.organization>
-		<sonar.projectKey>${project.artifactId}</sonar.projectKey>
-		<sonar.projectName>${project.name}</sonar.projectName>
-		<sonar.projectVersion>${project.version}</sonar.projectVersion> <!-- Use o valor da versão do Maven -->
 		<sonar.sources>src/main/java</sonar.sources> <!-- Diretório do código-fonte principal -->
     	<sonar.tests>src/test/java</sonar.tests> <!-- Diretório dos testes -->
 		<sonar.java.binaries>target/classes</sonar.java.binaries> <!-- Diretório dos arquivos compilados -->
 		<sonar.java.source>21</sonar.java.source> <!-- Versão do Java -->
 		<sonar.java.target>21</sonar.java.target> <!-- Versão do Java -->
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.token>${SONAR_TOKEN}</sonar.token>
+		<sonar.organization>bv-labs</sonar.organization>
+		<sonar.projectName>${project.name}</sonar.projectName>
+		<sonar.projectKey>${project.artifactId}</sonar.projectKey>
+		<sonar.projectVersion>${project.version}</sonar.projectVersion> <!-- Use o valor da versão do Maven -->
 	</properties>
 	<dependencyManagement>
 	    <dependencies>
