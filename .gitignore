@@ -178,3 +178,6 @@ buildNumber.properties
 # YesSir database via docker
 yessir-database/postgres**
 yessir-database-multiple
+
+# SonarQube esta configurado no proprio pom
+sonar-project.properties
