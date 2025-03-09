@@ -19,6 +19,7 @@
 		<sonar.sources>src/main/java</sonar.sources> <!-- Diretório do código-fonte principal -->
     	<sonar.tests>src/test/java</sonar.tests> <!-- Diretório dos testes -->
 		<sonar.java.binaries>target/classes</sonar.java.binaries> <!-- Diretório dos arquivos compilados -->
+		<sonar.java.libraries>target/dependency/*</sonar.java.libraries>
 		<sonar.java.source>21</sonar.java.source> <!-- Versão do Java -->
 		<sonar.java.target>21</sonar.java.target> <!-- Versão do Java -->
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
