@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   yessir-postgres:
@@ -30,8 +30,13 @@ services:
       POSTGRES_ROOT_HOST: '%'
     healthcheck:
       test: pg_isready
-    volumes:
-      - './postgres_test/data:/bitnami/postgresql/data'
+    #volumes:
+    #  - './postgres_test/data:/bitnami/postgresql/data'
     ports:
       - 5433:5432
     restart: unless-stopped
+
+  yessir-cache:
+    image: redis:7.0
+    ports:
+      - 6379:6379

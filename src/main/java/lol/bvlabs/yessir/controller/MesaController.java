@@ -26,15 +26,29 @@ import lol.bvlabs.yessir.domain.mesa.DadosAtualizacaoMesa;
 import lol.bvlabs.yessir.domain.mesa.DadosCadastroMesa;
 import lol.bvlabs.yessir.domain.mesa.DadosListagemMesa;
 import lol.bvlabs.yessir.domain.mesa.Mesa;
+import lol.bvlabs.yessir.domain.mesa.MesaOne;
 import lol.bvlabs.yessir.domain.mesa.MesaRepository;
+import lol.bvlabs.yessir.domain.mesa.MesaService;
 
 @RestController
 @RequestMapping("/mesas")
 @SecurityRequirement(name = "bearer-key")
 public class MesaController {
-	
-	@Autowired
+
+	@Autowired						// Remover
 	MesaRepository mesaRepository;
+
+	@Autowired
+    private MesaService mesaService;
+
+	@GetMapping("/{id}")
+	public ResponseEntity<DadosListagemMesa> getOneById(@PathVariable Long id) {
+		Optional<DadosListagemMesa> mesa = mesaService.getOneById(id);
+		if (mesa.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(mesa.get());
+	}
 
 	@GetMapping
 	public ResponseEntity<Page<DadosListagemMesa>> getAll(@PageableDefault(size = 20, sort = {"id"}) Pageable paginacao,
@@ -43,15 +57,6 @@ public class MesaController {
 			return ResponseEntity.ok(mesaRepository.findByNome(paginacao, nome).map(DadosListagemMesa::new));
 		}
 		return ResponseEntity.ok(mesaRepository.findAllByAtivoTrue(paginacao).map(DadosListagemMesa::new));
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<DadosListagemMesa> getOneById(@PathVariable Long id) {
-		Optional<Mesa> mesa = mesaRepository.findById(id);
-		if (mesa.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(new DadosListagemMesa(mesa.get()));
 	}
 
 	@PostMapping
