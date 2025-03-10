@@ -1,9 +1,7 @@
 package lol.bvlabs.yessir.controller;
 
 import java.net.URI;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -26,7 +24,6 @@ import lol.bvlabs.yessir.domain.mesa.DadosAtualizacaoMesa;
 import lol.bvlabs.yessir.domain.mesa.DadosCadastroMesa;
 import lol.bvlabs.yessir.domain.mesa.DadosListagemMesa;
 import lol.bvlabs.yessir.domain.mesa.Mesa;
-import lol.bvlabs.yessir.domain.mesa.MesaOne;
 import lol.bvlabs.yessir.domain.mesa.MesaRepository;
 import lol.bvlabs.yessir.domain.mesa.MesaService;
 
@@ -35,15 +32,18 @@ import lol.bvlabs.yessir.domain.mesa.MesaService;
 @SecurityRequirement(name = "bearer-key")
 public class MesaController {
 
-	@Autowired						// Remover
-	MesaRepository mesaRepository;
+	private final MesaRepository mesaRepository;
 
-	@Autowired
-    private MesaService mesaService;
+	private final MesaService mesaService;
+	
+	public MesaController(MesaRepository mesaRepository, MesaService mesaService) {
+		this.mesaRepository = mesaRepository;
+		this.mesaService = mesaService;
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<DadosListagemMesa> getOneById(@PathVariable Long id) {
-		Optional<DadosListagemMesa> mesa = mesaService.getOneById(id);
+		var mesa = mesaService.getOneById(id);
 		if (mesa.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
