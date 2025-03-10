@@ -26,7 +26,7 @@ public class MesaBuilder {
 		return Optional.of(new Mesa(this.id, this.nome));
 	}
 	
-	public Optional<DadosListagemMesa> buildDadosListagemMesa() {
-		return Optional.of(new DadosListagemMesa(new Mesa(this.id, this.nome)));
+	public Optional<MesaPOJO> buildMesaPOJO() {
+		return Optional.of(new MesaPOJO(new Mesa(this.id, this.nome)));
 	}
 }

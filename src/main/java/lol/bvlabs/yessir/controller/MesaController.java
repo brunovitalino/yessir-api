@@ -43,11 +43,11 @@ public class MesaController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<DadosListagemMesa> getOneById(@PathVariable Long id) {
-		var mesa = mesaService.getOneById(id);
-		if (mesa.isEmpty()) {
+		var mesaPOJO = mesaService.getOneById(id);
+		if (mesaPOJO.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(mesa.get());
+		return ResponseEntity.ok(new DadosListagemMesa(mesaPOJO.get()));
 	}
 
 	@GetMapping

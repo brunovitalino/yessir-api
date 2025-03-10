@@ -15,8 +15,7 @@ public class MesaService {
     }
 
     @Cacheable(value = "mesas", key = "'mesa:' + #id")
-    public Optional<DadosListagemMesa> getOneById(Long id) {
-        Optional<Mesa> mesa = mesaRepository.findById(id);
-        return mesa.map(DadosListagemMesa::new);
+    public Optional<MesaPOJO> getOneById(Long id) {
+        return mesaRepository.findById(id).map(MesaPOJO::new);
     }
 }

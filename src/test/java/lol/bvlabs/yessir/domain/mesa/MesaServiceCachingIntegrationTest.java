@@ -62,13 +62,13 @@ class MesaServiceCachingIntegrationTest {
           .willReturn(mesa);
 
 		// WHEN
-        var dadosListagemMesaCacheMiss = mesaService.getOneById(idSearched);
-        var dadosListagemMesaCacheHit = mesaService.getOneById(idSearched);
+        var mesaPOJOCacheMiss = mesaService.getOneById(idSearched);
+        var mesaPOJOCacheHit = mesaService.getOneById(idSearched);
 
 		// THEN
-        var mesaDadosListagemMesa = mesaBuilder.buildDadosListagemMesa();
-        assertThat(dadosListagemMesaCacheMiss).isEqualTo(mesaDadosListagemMesa);
-        assertThat(dadosListagemMesaCacheHit).isEqualTo(mesaDadosListagemMesa);
+        var mesaPOJO = mesaBuilder.buildMesaPOJO();
+        assertThat(mesaPOJOCacheMiss).isEqualTo(mesaPOJO);
+        assertThat(mesaPOJOCacheHit).isEqualTo(mesaPOJO);
 
         verify(mockMesaRepository, times(1)).findById(idSearched);
 

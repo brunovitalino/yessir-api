@@ -1,6 +1,24 @@
-
 spring:
+  # DATABASE
+  h2:
+    console:
+      enabled: true          # Habilita o console web do H2
+      path: /h2-console      # Define o caminho para o console (padrão: /h2-console)
   datasource:
-    url: jdbc:postgresql://localhost:5433/yessir_test
+    url: jdbc:h2:mem:testdb #DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE;
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    show_sql: false
+    #database-platform: org.hibernate.dialect.H2Dialect
+    #hibernate:
+    #  ddl-aut: create-drop
+    #properties:
+    #  hibernate:
+    #    dialect: org.hibernate.dialect.H2Dialect
+    #defer-datasource-initialization: true 
+    # Propriedade extra necessaria, já que recriamos o schema gerado pelo Hibernate toda vez. O data.sql executa antes da inicializacao do Hibernate para alinhar a inicializacao por script com a do Flyway ou Liquibase.
   flyway:
     enabled: false
+    #locations: classpath:db/migration  # Onde os scripts SQL do Flyway estão localizados
