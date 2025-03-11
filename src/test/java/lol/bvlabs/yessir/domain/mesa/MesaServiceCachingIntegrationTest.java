@@ -19,9 +19,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import lol.bvlabs.yessir.infra.cache.EmbededRedis;
 import lol.bvlabs.yessir.infra.cache.RedisConfig;
 
-@Import({ RedisConfig.class, MesaService.class })	// Importa as classes que vou testar
+@Import({ RedisConfig.class, MesaService.class, EmbededRedis.class })	// Importa as classes que vou testar
 @ExtendWith(SpringExtension.class)
 @EnableCaching										// Habilita o cache para o teste
 @ImportAutoConfiguration(classes = {				// Importa as configurações automáticas do Redis e Cache

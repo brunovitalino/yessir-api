@@ -7,6 +7,9 @@ spring:
   application:
     name: YesSir
   # DATABASE
+  h2:
+    console:
+      enabled: false
   datasource:
     url: jdbc:postgresql://localhost:5437/yessir
     username: yessir
@@ -20,6 +23,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  flyway:
+    enabled: true
   # CACHE
   data:
     redis:
