@@ -30,7 +30,8 @@ spring:
     redis:
       host: localhost
       port: 6379
-      #password: sua-senha-se-tiver
+      password:
+      timeout: 15000
 
 # SECURITY
 api:

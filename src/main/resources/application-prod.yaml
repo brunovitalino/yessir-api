@@ -2,8 +2,9 @@ server:
   port: 8080
 
 spring:
+  # DATABASE
   datasource:
-    url: jdbc:postgresql://${DATABASE_HOST:yessir-postgres}:${DATABASE_PORT:5432}/yessir
+    url: jdbc:postgresql://${DATABASE_HOST:yessir-db}:${DATABASE_PORT:5432}/yessir
     username: yessir
     password: 1234
   jpa:
@@ -14,3 +15,10 @@ spring:
     properties:
       hibernate:
         format_sql: false
+  # CACHE
+  data:
+    redis:
+      host: ${CACHE_HOST:yessir-cache}
+      port: ${CACHE_PORT:6379}
+      password:
+      timeout: 15000

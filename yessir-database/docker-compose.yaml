@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   yessir-postgres:
-    container_name: yessir-postgres
+    container_name: yessir-db
     image: bitnami/postgresql:16.3.0-debian-12-r14
     environment:
       POSTGRES_DB: 'yessir'
@@ -20,7 +20,7 @@ services:
     restart: unless-stopped
 
   yessir-postgres-test:
-    container_name: yessir-postgres-test
+    container_name: yessir-db-test
     image: bitnami/postgresql:16.3.0-debian-12-r14
     environment:
       POSTGRES_DB: 'yessir_test'
