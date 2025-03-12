@@ -48,6 +48,11 @@ public class Mesa {
 		this.id = id;
 	}
 
+	public Mesa(Long id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
+
 	public Mesa(DadosCadastroMesa dadosCadastroMesa) {
 		this.nome = dadosCadastroMesa.nome();
 		this.ativo = true;

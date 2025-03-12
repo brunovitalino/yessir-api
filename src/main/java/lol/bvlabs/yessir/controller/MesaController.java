@@ -1,9 +1,7 @@
 package lol.bvlabs.yessir.controller;
 
 import java.net.URI;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,14 +25,30 @@ import lol.bvlabs.yessir.domain.mesa.DadosCadastroMesa;
 import lol.bvlabs.yessir.domain.mesa.DadosListagemMesa;
 import lol.bvlabs.yessir.domain.mesa.Mesa;
 import lol.bvlabs.yessir.domain.mesa.MesaRepository;
+import lol.bvlabs.yessir.domain.mesa.MesaService;
 
 @RestController
 @RequestMapping("/mesas")
 @SecurityRequirement(name = "bearer-key")
 public class MesaController {
+
+	private final MesaRepository mesaRepository;
+
+	private final MesaService mesaService;
 	
-	@Autowired
-	MesaRepository mesaRepository;
+	public MesaController(MesaRepository mesaRepository, MesaService mesaService) {
+		this.mesaRepository = mesaRepository;
+		this.mesaService = mesaService;
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<DadosListagemMesa> getOneById(@PathVariable Long id) {
+		var mesaPOJO = mesaService.getOneById(id);
+		if (mesaPOJO.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(new DadosListagemMesa(mesaPOJO.get()));
+	}
 
 	@GetMapping
 	public ResponseEntity<Page<DadosListagemMesa>> getAll(@PageableDefault(size = 20, sort = {"id"}) Pageable paginacao,
@@ -43,15 +57,6 @@ public class MesaController {
 			return ResponseEntity.ok(mesaRepository.findByNome(paginacao, nome).map(DadosListagemMesa::new));
 		}
 		return ResponseEntity.ok(mesaRepository.findAllByAtivoTrue(paginacao).map(DadosListagemMesa::new));
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<DadosListagemMesa> getOneById(@PathVariable Long id) {
-		Optional<Mesa> mesa = mesaRepository.findById(id);
-		if (mesa.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(new DadosListagemMesa(mesa.get()));
 	}
 
 	@PostMapping
