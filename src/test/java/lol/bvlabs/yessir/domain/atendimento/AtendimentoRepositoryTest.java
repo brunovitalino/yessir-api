@@ -44,10 +44,9 @@ class AtendimentoRepositoryTest {
 
 		var atendente2 = cadastrarAtendente("Roberto");
 		cadastrarAtendimento(mesa1, atendente2);
-		
+
 		// WHEN ou act
 		Optional<Atendimento> atendimentoOptional = atendimentoRepository.findOneAtivoByMesaId(mesa1.getId());
-
 
 		// THEN ou assert
 		assertThat(atendimentoOptional).isPresent();
@@ -67,7 +66,7 @@ class AtendimentoRepositoryTest {
 		cadastrarAtendimento(mesa1, atendente2);
 		
 		atualizarAtendimento(atendimento1.getId(), null, null, AtendimentoStatusEnum.ENCERRADO);
-		
+
 		// WHEN
 		Optional<Atendimento> atendimentoOptional = atendimentoRepository.findOneAtivoByMesaId(mesa1.getId());
 
